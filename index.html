@@ -21,12 +21,12 @@
     <nav class="main-nav">
       <a href="#cardapio">CARDÁPIO</a>
       <a href="#sobre">SOBRE</a>
-      <a href="#unidades">UNIDADES</a>
+      <a href="#localizacao">LOCALIZAÇÃO</a>
       <a href="#contato">CONTATO</a>
     </nav>
 
     <div class="header-actions">
-      <a href="#unidades" class="btn btn-outline">ENCONTRAR UNIDADE</a>
+      <a href="#localizacao" class="btn btn-outline">ENCONTRAR UNIDADE</a>
       <a href="#cardapio" class="btn btn-solid">PEÇA AGORA</a>
     </div>
   </div>
@@ -577,7 +577,7 @@
       <a href="#">Contato</a>
     </div>
 
-    <div class="footer-col">
+    <div class="footer-col" id="localizacao">
       <h4>CONTATO</h4>
       <span class="footer-contact-item">📞 (XX) XXXXX-XXXX</span>
       <span class="footer-contact-item">📍 Endereço da loja</span>
@@ -623,6 +623,8 @@
   </div>
 </div>
 
+<div class="cart-backdrop" id="cartBackdrop" hidden></div>
+
 <div class="cart-panel" id="cartPanel" hidden>
   <div class="cart-panel-header">
     <h3>SEU PEDIDO</h3>
@@ -630,6 +632,60 @@
   </div>
 
   <div class="cart-items" id="cartItems"></div>
+
+  <div class="cart-panel-section">
+    <span class="cart-section-label">SEUS DADOS</span>
+    <input class="cart-input" id="customerName" type="text" placeholder="Seu nome">
+    <input class="cart-input" id="customerPhone" type="tel" placeholder="Celular (WhatsApp) com DDD">
+    <input class="cart-input" id="customerPassword" type="password" placeholder="Crie uma senha pra acompanhar e juntar pontos">
+    <p class="cart-hint">Já tem conta? <a href="#" class="cart-link" id="loginLink">Entrar</a> pra juntar pontos.</p>
+  </div>
+
+  <div class="cart-divider"></div>
+
+  <div class="cart-panel-section">
+    <span class="cart-section-label">ENTREGA OU RETIRADA?</span>
+    <div class="delivery-options" id="deliveryOptions">
+      <button class="delivery-btn active" type="button" data-mode="entrega">Entrega</button>
+      <button class="delivery-btn" type="button" data-mode="retirada">Retirada no local</button>
+    </div>
+  </div>
+
+  <div id="deliveryFields">
+    <p class="cart-hint">Entregamos em <strong>São Sebastião do Passé</strong></p>
+
+    <div class="cart-panel-section">
+      <span class="cart-section-label">BAIRRO (CALCULA A TAXA DE ENTREGA)</span>
+      <select class="cart-input" id="bairroSelect">
+        <option value="" data-fee="">Selecione o bairro</option>
+        <!-- TODO: substituir pelos bairros e taxas reais atendidos pela loja -->
+        <option value="Centro" data-fee="5">Centro — R$ 5,00</option>
+        <option value="Loteamento Passé" data-fee="7">Loteamento Passé — R$ 7,00</option>
+        <option value="Outros bairros" data-fee="10">Outros bairros — R$ 10,00</option>
+      </select>
+    </div>
+
+    <div class="cart-panel-section cart-row">
+      <div class="cart-field">
+        <span class="cart-section-label">NOME DA RUA</span>
+        <input class="cart-input" id="ruaInput" type="text" placeholder="Digite o nome da sua rua">
+      </div>
+      <div class="cart-field cart-field-small">
+        <span class="cart-section-label">NÚMERO</span>
+        <input class="cart-input" id="numeroInput" type="text" placeholder="Nº">
+      </div>
+    </div>
+
+    <div class="cart-panel-section">
+      <span class="cart-section-label">COMPLEMENTO</span>
+      <input class="cart-input" id="complementoInput" type="text" placeholder="Ex: última casa do corredor">
+    </div>
+
+    <div class="cart-panel-section">
+      <span class="cart-section-label">REFERÊNCIA</span>
+      <input class="cart-input" id="referenciaInput" type="text" placeholder="Ex: do lado do mercado, porta verde">
+    </div>
+  </div>
 
   <div class="cart-panel-section">
     <span class="cart-section-label">FORMA DE PAGAMENTO</span>
@@ -642,7 +698,16 @@
 
   <div class="cart-panel-section" id="trocoSection" hidden>
     <span class="cart-section-label">PRECISA DE TROCO PARA QUANTO?</span>
-    <input class="troco-input" id="trocoInput" type="text" placeholder="Ex: R$ 50,00">
+    <input class="cart-input" id="trocoInput" type="text" placeholder="Ex: R$ 50,00">
+  </div>
+
+  <div class="cart-summary-row">
+    <span>Subtotal</span>
+    <span id="subtotalValue">R$ 0,00</span>
+  </div>
+  <div class="cart-summary-row">
+    <span>Taxa de entrega</span>
+    <span id="deliveryFeeValue">Selecione o bairro</span>
   </div>
 
   <div class="cart-total-row">
