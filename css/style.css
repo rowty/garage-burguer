@@ -457,14 +457,14 @@ body {
 /* Why choose us */
 
 .why-choose {
-  background: var(--bg-dark);
+  background: var(--cream);
   padding: 8px 0 72px;
 }
 
 .why-choose h2 {
   font-family: 'Anton', sans-serif;
   font-size: 22px;
-  color: var(--white);
+  color: var(--bg-dark);
   margin-bottom: 20px;
 }
 
