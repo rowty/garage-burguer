@@ -1,0 +1,13 @@
+{
+  "name": "garage-burguer",
+  "version": "1.0.0",
+  "description": "Garage Burguer - Hamburgueria e Cia",
+  "main": "logo garage.html",
+  "scripts": {
+    "dev": "python -m http.server 3000",
+    "build": "echo 'No build step needed'"
+  },
+  "keywords": ["burguer", "garage"],
+  "author": "Pedro Lindiz",
+  "license": "ISC"
+}

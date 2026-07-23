@@ -1,0 +1,14 @@
+{
+  "builds": [
+    {
+      "src": "logo garage.html",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/",
+      "dest": "/logo garage.html"
+    }
+  ]
+}
