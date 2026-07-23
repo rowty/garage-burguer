@@ -1,5 +1,4 @@
-// TODO: substituir pelo número real do WhatsApp do negócio (DDI + DDD + número, só dígitos)
-const WHATSAPP_NUMBER = '5500000000000';
+const WHATSAPP_NUMBER = '5571999841726';
 
 const ADDONS = [
   { name: 'Queijo', price: 3.00 },
