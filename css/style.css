@@ -380,6 +380,7 @@ body {
 
 .dish-photo.contain {
   object-fit: contain;
+  background: #FFFFFF;
   padding: 6px;
 }
 
