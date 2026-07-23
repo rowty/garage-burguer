@@ -967,9 +967,6 @@ select.cart-input option {
   gap: 8px;
 }
 
-@media (max-width: 520px) {
-  .cart-panel { width: 100vw; }
-}
 
 /* Footer */
 
