@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Garage Burger — Cardápio & Delivery</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="#" class="logo">
+      <img src="img/logo-garage-burger.png" alt="Garage Burger" class="logo-mark">
+      <span class="logo-text">GARAGE<span class="accent">BURGER</span></span>
+    </a>
+
+    <nav class="main-nav">
+      <a href="#cardapio">CARDÁPIO</a>
+      <a href="#sobre">SOBRE</a>
+      <a href="#unidades">UNIDADES</a>
+      <a href="#contato">CONTATO</a>
+    </nav>
+
+    <div class="header-actions">
+      <a href="#unidades" class="btn btn-outline">ENCONTRAR UNIDADE</a>
+      <a href="#cardapio" class="btn btn-solid">PEÇA AGORA</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="hero-content">
+      <h1>QUENTINHO <span class="accent">&amp;</span><br>FEITO PRA AMAR.</h1>
+      <p class="hero-text">
+        Hambúrguer artesanal premium feito na hora, com ingredientes selecionados
+        e aquele toque de garagem: potência, sabor e personalidade em cada mordida.
+      </p>
+      <a href="#cardapio" class="btn btn-pill">VER CARDÁPIO</a>
+    </div>
+
+    <div class="hero-media">
+      <img class="hero-image" src="img/opala-hero.png" alt="Hambúrguer Garage Burger sobre o capô de um Chevrolet Opala">
+    </div>
+  </div>
+</section>
+
+<section class="menu-preview">
+  <div class="container">
+
+    <div class="section-head">
+      <h2>Categorias</h2>
+    </div>
+
+    <div class="categories-grid">
+      <a href="#hamburgueres" class="category-card">
+        <span class="category-icon">🍔</span>
+        <span class="category-label">Hambúrguer</span>
+      </a>
+      <a href="#temakis" class="category-card">
+        <span class="category-icon">🍣</span>
+        <span class="category-label">Temaki</span>
+      </a>
+      <a href="#bebidas" class="category-card">
+        <span class="category-icon">🥤</span>
+        <span class="category-label">Bebidas</span>
+      </a>
+      <a href="#acompanhamentos" class="category-card">
+        <span class="category-icon">🍟</span>
+        <span class="category-label">Acompanhamentos</span>
+      </a>
+    </div>
+
+    <div class="section-head dishes-head">
+      <h2>Mais Pedidos</h2>
+    </div>
+
+    <div class="dishes-grid">
+
+      <div class="dish-card">
+        <div class="dish-photo-wrap">
+          <img class="dish-photo" src="img/produtos/opalla.jpg" alt="Opalla">
+        </div>
+        <h3 class="dish-name">Opalla</h3>
+        <p class="dish-desc">Pão de batata 80g, 3 blends de 100g, triplo queijo prato, triplo creme de cheddar, tiras de bacon crocante e maionese de bacon</p>
+        <div class="dish-bottom">
+          <span class="dish-price">R$ 38,00</span>
+          <div class="qty-box" data-name="Opalla" data-price="38.00" data-customizable="true"></div>
+        </div>
+      </div>
+
+      <div class="dish-card">
+        <div class="dish-photo-wrap">
+          <img class="dish-photo" src="img/produtos/maverick-turbo.jpg" alt="Maverick Turbo">
+        </div>
+        <h3 class="dish-name">Maverick Turbo</h3>
+        <p class="dish-desc">Pão australiano, 2 blends de 150g, duplo queijo prato, duplo mussarela, duplo queijo coalho maçaricado, cebola caramelizada, bacon, creme de cheddar e molho barbecue</p>
+        <div class="dish-bottom">
+          <span class="dish-price">R$ 32,00</span>
+          <div class="qty-box" data-name="Maverick Turbo" data-price="32.00" data-customizable="true"></div>
+        </div>
+      </div>
+
+      <div class="dish-card">
+        <div class="dish-photo-wrap">
+          <div class="dish-photo-placeholder"><span>Foto</span></div>
+        </div>
+        <h3 class="dish-name">Big Hot – Salmão Cru</h3>
+        <p class="dish-desc">Roll de alga nori frita, recheado com arroz japonês, salmão em cubos cru, gergelim, cebolinha e cream cheese</p>
+        <div class="dish-bottom">
+          <span class="dish-price">R$ 49,00</span>
+          <div class="qty-box" data-name="Big Hot – Salmão Cru" data-price="49.00"></div>
+        </div>
+      </div>
+
+      <div class="dish-card">
+        <div class="dish-photo-wrap">
+          <img class="dish-photo" src="img/produtos/coca-lata.jpg" alt="Refrigerante Lata">
+        </div>
+        <h3 class="dish-name">Refrigerante Lata</h3>
+        <p class="dish-desc">Bem gelada</p>
+        <div class="dish-bottom">
+          <span class="dish-price">R$ 6,00</span>
+          <div class="qty-box" data-name="Refrigerante Lata" data-price="6.00"></div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+<section class="menu-section" id="hamburgueres">
+  <div class="container">
+    <div class="section-head">
+      <h2>Hambúrgueres</h2>
+    </div>
+
+    <div class="dishes-grid">
+
+      <div class="dish-card">
+        <div class="dish-photo-wrap">
+          <img class="dish-photo" src="img/produtos/kids.jpg" alt="Kids">
+        </div>
+        <h3 class="dish-name">Kids</h3>
+        <p class="dish-desc">Pão de batata 80g, blend 120g, queijo prato e ketchup</p>
+        <div class="dish-bottom">
+          <span class="dish-price">R$ 20,00</span>
+          <div class="qty-box" data-name="Kids" data-price="20.00" data-customizable="true"></div>
+        </div>
+      </div>
+
+      <div class="dish-card">
+        <div class="dish-photo-wrap">
+          <img class="dish-photo" src="img/produtos/opalla.jpg" alt="Opalla">
+        </div>
+        <h3 class="dish-name">Opalla</h3>
+        <p class="dish-desc">Pão de batata 80g, 3 blends de 100g, triplo queijo prato, triplo creme de cheddar, tiras de bacon crocante e maionese de bacon</p>
+        <div class="dish-bottom">
+          <span class="dish-price">R$ 38,00</span>
+          <div class="qty-box" data-name="Opalla" data-price="38.00" data-customizable="true"></div>
+        </div>
+      </div>
+
+      <div class="dish-card">
+        <div class="dish-photo-wrap">
+          <img class="dish-photo" src="img/produtos/mustang.jpg" alt="Mustang">
+        </div>
+        <h3 class="dish-name">Mustang</h3>
+        <p class="dish-desc">Pão de batata 80g, 2 blends de 100g, queijo prato, queijo coalho maçaricado, mussarela, bacon, molho barbecue e maionese de bacon</p>
+        <div class="dish-bottom">
+          <span class="dish-price">R$ 32,00</span>
+          <div class="qty-box" data-name="Mustang" data-price="32.00" data-customizable="true"></div>
+        </div>
+      </div>
+
+      <div class="dish-card">
+        <div class="dish-photo-wrap">
+          <img class="dish-photo" src="img/produtos/garage-75.jpg" alt="Garage 75">
+        </div>
+        <h3 class="dish-name">Garage 75</h3>
+        <p class="dish-desc">Pão de batata 80g, blend 120g, alface, tomate, queijo prato e maionese de bacon</p>
+        <div class="dish-bottom">
+          <span class="dish-price">R$ 24,00</span>
+          <div class="qty-box" data-name="Garage 75" data-price="24.00" data-customizable="true"></div>
+        </div>
+      </div>
+
+      <div class="dish-card">
+        <div class="dish-photo-wrap">
+          <img class="dish-photo" src="img/produtos/maverick.jpg" alt="Maverick">
+        </div>
+        <h3 class="dish-name">Maverick</h3>
+        <p class="dish-desc">Pão australiano 80g, blend 150g, queijo prato, queijo coalho maçaricado, mussarela, cebola caramelizada, molho barbecue, creme de cheddar e bacon</p>
+        <div class="dish-bottom">
+          <span class="dish-price">R$ 28,00</span>
+          <div class="qty-box" data-name="Maverick" data-price="28.00" data-customizable="true"></div>
+        </div>
+      </div>
+
+      <div class="dish-card">
+        <div class="dish-photo-wrap">
+          <img class="dish-photo" src="img/produtos/maverick-turbo.jpg" alt="Maverick Turbo">
+        </div>
+        <h3 class="dish-name">Maverick Turbo</h3>
+        <p class="dish-desc">Pão australiano, 2 blends de 150g, duplo queijo prato, duplo mussarela, duplo queijo coalho maçaricado, cebola caramelizada, bacon, creme de cheddar e molho barbecue</p>
+        <div class="dish-bottom">
+          <span class="dish-price">R$ 32,00</span>
+          <div class="qty-box" data-name="Maverick Turbo" data-price="32.00" data-customizable="true"></div>
+        </div>
+      </div>
+
+      <div class="dish-card">
+        <div class="dish-photo-wrap">
+          <img class="dish-photo" src="img/produtos/corvette.jpg" alt="Corvette">
+        </div>
+        <h3 class="dish-name">Corvette</h3>
+        <p class="dish-desc">Pão de batata 80g, blend 120g, queijo prato, queijo coalho maçaricado, mussarela, bacon e maionese</p>
+        <div class="dish-bottom">
+          <span class="dish-price">R$ 27,00</span>
+          <div class="qty-box" data-name="Corvette" data-price="27.00" data-customizable="true"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="menu-section" id="temakis">
+  <div class="container">
+    <div class="section-head">
+      <h2>Temakis</h2>
+    </div>
+
+    <span class="subsection-head first">Temaki Hot (cone frito)</span>
+    <div class="dishes-grid">
+
+      <div class="dish-card">
+        <div class="dish-photo-wrap">
+          <img class="dish-photo" src="img/produtos/temaki-salmao-frito.jpg" alt="Salmão Frito">
+        </div>
+        <h3 class="dish-name">Salmão Frito</h3>
+        <p class="dish-desc">Cone de alga nori frita, recheado com arroz japonês, salmão em cubos frito, gergelim, cebolinha e cream cheese</p>
+        <div class="dish-bottom">
+          <span class="dish-price">R$ 42,00</span>
+          <div class="qty-box" data-name="Temaki Hot – Salmão Frito" data-price="42.00"></div>
+        </div>
+      </div>
+
+      <div class="dish-card">
+        <div class="dish-photo-wrap">
+          <img class="dish-photo" src="img/produtos/temaki-camarao-salmao-frito.jpg" alt="Camarão e Salmão Frito">
+        </div>
+        <h3 class="dish-name">Camarão e Salmão Frito</h3>
+        <p class="dish-desc">Cone de alga nori frita, recheado com arroz japonês, camarão grelhado, salmão em cubos frito, gergelim, cebolinha e cream cheese</p>
+        <div class="dish-bottom">
+          <span class="dish-price">R$ 40,00</span>
+          <div class="qty-box" data-name="Temaki Hot – Camarão e Salmão Frito" data-price="40.00"></div>
+        </div>
+      </div>
+
+      <div class="dish-card">
+        <div class="dish-photo-wrap">
+          <img class="dish-photo" src="img/produtos/temaki-misto-turbinado.jpg" alt="Misto Turbinado Frito">
+        </div>
+        <h3 class="dish-name">Misto Turbinado Frito</h3>
+        <p class="dish-desc">Cone de alga nori frita, recheado com arroz japonês, camarão grelhado, pedaços de kani, salmão em cubos frito, gergelim, cebolinha e cream cheese</p>
+        <div class="dish-bottom">
+          <span class="dish-price">R$ 45,00</span>
+          <div class="qty-box" data-name="Temaki Hot – Misto Turbinado Frito" data-price="45.00"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <span class="subsection-head">Temaki Cru (alga ao natural)</span>
+    <div class="dishes-grid">
+
+      <div class="dish-card">
+        <div class="dish-photo-wrap">
+          <div class="dish-photo-placeholder"><span>Foto</span></div>
+        </div>
+        <h3 class="dish-name">Salmão Cru</h3>
+        <p class="dish-desc">Cone de alga nori ao natural, recheado com arroz japonês, salmão em cubos cru, gergelim, cebolinha e cream cheese</p>
+        <div class="dish-bottom">
+          <span class="dish-price">R$ 42,00</span>
+          <div class="qty-box" data-name="Temaki Cru – Salmão Cru" data-price="42.00"></div>
+        </div>
+      </div>
+
+      <div class="dish-card">
+        <div class="dish-photo-wrap">
+          <div class="dish-photo-placeholder"><span>Foto</span></div>
+        </div>
+        <h3 class="dish-name">Salmão Maçaricado</h3>
+        <p class="dish-desc">Cone de alga nori ao natural, recheado com arroz japonês, salmão em cubos maçaricado, gergelim, cebolinha e cream cheese</p>
+        <div class="dish-bottom">
+          <span class="dish-price">R$ 40,00</span>
+          <div class="qty-box" data-name="Temaki Cru – Salmão Maçaricado" data-price="40.00"></div>
+        </div>
+      </div>
+
+      <div class="dish-card">
+        <div class="dish-photo-wrap">
+          <div class="dish-photo-placeholder"><span>Foto</span></div>
+        </div>
+        <h3 class="dish-name">Camarão Grelhado e Salmão Cru</h3>
+        <p class="dish-desc">Cone de alga nori ao natural, recheado com arroz japonês, camarão grelhado, salmão em cubos cru, gergelim, cebolinha e cream cheese</p>
+        <div class="dish-bottom">
+          <span class="dish-price">R$ 42,00</span>
+          <div class="qty-box" data-name="Temaki Cru – Camarão Grelhado e Salmão Cru" data-price="42.00"></div>
+        </div>
+      </div>
+
+      <div class="dish-card">
+        <div class="dish-photo-wrap">
+          <div class="dish-photo-placeholder"><span>Foto</span></div>
+        </div>
+        <h3 class="dish-name">Camarão Grelhado e Salmão Maçaricado</h3>
+        <p class="dish-desc">Cone de alga nori ao natural, recheado com arroz japonês, camarão grelhado, salmão em cubos maçaricado, gergelim, cebolinha e cream cheese</p>
+        <div class="dish-bottom">
+          <span class="dish-price">R$ 42,00</span>
+          <div class="qty-box" data-name="Temaki Cru – Camarão Grelhado e Salmão Maçaricado" data-price="42.00"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <span class="subsection-head">Big Hot (roll frito)</span>
+    <div class="dishes-grid">
+
+      <div class="dish-card">
+        <div class="dish-photo-wrap">
+          <div class="dish-photo-placeholder"><span>Foto</span></div>
+        </div>
+        <h3 class="dish-name">Salmão Frito</h3>
+        <p class="dish-desc">Roll de alga nori frita, recheado com arroz japonês, salmão em cubos frito, gergelim, cebolinha e cream cheese</p>
+        <div class="dish-bottom">
+          <span class="dish-price">R$ 47,00</span>
+          <div class="qty-box" data-name="Big Hot – Salmão Frito" data-price="47.00"></div>
+        </div>
+      </div>
+
+      <div class="dish-card">
+        <div class="dish-photo-wrap">
+          <div class="dish-photo-placeholder"><span>Foto</span></div>
+        </div>
+        <h3 class="dish-name">Salmão Maçaricado</h3>
+        <p class="dish-desc">Roll de alga nori frita, recheado com arroz japonês, salmão em cubos maçaricado, gergelim, cebolinha e cream cheese</p>
+        <div class="dish-bottom">
+          <span class="dish-price">R$ 47,00</span>
+          <div class="qty-box" data-name="Big Hot – Salmão Maçaricado" data-price="47.00"></div>
+        </div>
+      </div>
+
+      <div class="dish-card">
+        <div class="dish-photo-wrap">
+          <div class="dish-photo-placeholder"><span>Foto</span></div>
+        </div>
+        <h3 class="dish-name">Salmão Cru</h3>
+        <p class="dish-desc">Roll de alga nori frita, recheado com arroz japonês, salmão em cubos cru, gergelim, cebolinha e cream cheese</p>
+        <div class="dish-bottom">
+          <span class="dish-price">R$ 49,00</span>
+          <div class="qty-box" data-name="Big Hot – Salmão Cru" data-price="49.00"></div>
+        </div>
+      </div>
+
+      <div class="dish-card">
+        <div class="dish-photo-wrap">
+          <div class="dish-photo-placeholder"><span>Foto</span></div>
+        </div>
+        <h3 class="dish-name">Camarão Grelhado e Salmão Frito</h3>
+        <p class="dish-desc">Roll de alga nori frita, recheado com arroz japonês, camarão grelhado, salmão em cubos frito, gergelim, cebolinha e cream cheese</p>
+        <div class="dish-bottom">
+          <span class="dish-price">R$ 47,00</span>
+          <div class="qty-box" data-name="Big Hot – Camarão Grelhado e Salmão Frito" data-price="47.00"></div>
+        </div>
+      </div>
+
+      <div class="dish-card">
+        <div class="dish-photo-wrap">
+          <div class="dish-photo-placeholder"><span>Foto</span></div>
+        </div>
+        <h3 class="dish-name">Camarão Grelhado e Salmão Maçaricado</h3>
+        <p class="dish-desc">Roll de alga nori frita, recheado com arroz japonês, camarão grelhado, salmão em cubos maçaricado, gergelim, cebolinha e cream cheese</p>
+        <div class="dish-bottom">
+          <span class="dish-price">R$ 47,00</span>
+          <div class="qty-box" data-name="Big Hot – Camarão Grelhado e Salmão Maçaricado" data-price="47.00"></div>
+        </div>
+      </div>
+
+      <div class="dish-card">
+        <div class="dish-photo-wrap">
+          <div class="dish-photo-placeholder"><span>Foto</span></div>
+        </div>
+        <h3 class="dish-name">Camarão Grelhado e Salmão Cru</h3>
+        <p class="dish-desc">Roll de alga nori frita, recheado com arroz japonês, camarão grelhado, salmão em cubos cru, gergelim, cebolinha e cream cheese</p>
+        <div class="dish-bottom">
+          <span class="dish-price">R$ 49,00</span>
+          <div class="qty-box" data-name="Big Hot – Camarão Grelhado e Salmão Cru" data-price="49.00"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="menu-section" id="bebidas">
+  <div class="container">
+    <div class="section-head">
+      <h2>Bebidas</h2>
+    </div>
+
+    <div class="dishes-grid">
+
+      <div class="dish-card">
+        <div class="dish-photo-wrap">
+          <img class="dish-photo contain" src="img/produtos/pepsi.png" alt="Refrigerante 1L">
+        </div>
+        <h3 class="dish-name">Refrigerante 1L</h3>
+        <p class="dish-desc">Antártica ou Pepsi</p>
+        <div class="dish-bottom">
+          <span class="dish-price">R$ 10,00</span>
+          <div class="qty-box" data-name="Refrigerante 1L" data-price="10.00"></div>
+        </div>
+      </div>
+
+      <div class="dish-card">
+        <div class="dish-photo-wrap">
+          <img class="dish-photo contain" src="img/produtos/coca-cola.png" alt="Coca-Cola">
+        </div>
+        <h3 class="dish-name">Coca-Cola</h3>
+        <p class="dish-desc"></p>
+        <div class="dish-bottom">
+          <span class="dish-price">R$ 10,00</span>
+          <div class="qty-box" data-name="Coca-Cola" data-price="10.00"></div>
+        </div>
+      </div>
+
+      <div class="dish-card">
+        <div class="dish-photo-wrap">
+          <img class="dish-photo" src="img/produtos/coca-lata.jpg" alt="Refrigerante Lata">
+        </div>
+        <h3 class="dish-name">Refrigerante Lata</h3>
+        <p class="dish-desc">Bem gelada</p>
+        <div class="dish-bottom">
+          <span class="dish-price">R$ 6,00</span>
+          <div class="qty-box" data-name="Refrigerante Lata" data-price="6.00"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="menu-section" id="acompanhamentos">
+  <div class="container">
+    <div class="section-head">
+      <h2>Acompanhamentos</h2>
+    </div>
+
+    <div class="dishes-grid">
+
+      <div class="dish-card">
+        <div class="dish-photo-wrap">
+          <img class="dish-photo" src="img/produtos/batata-frita.jpg" alt="Batata P">
+        </div>
+        <h3 class="dish-name">Batata P</h3>
+        <p class="dish-desc"></p>
+        <div class="dish-bottom">
+          <span class="dish-price">R$ 10,00</span>
+          <div class="qty-box" data-name="Batata P" data-price="10.00"></div>
+        </div>
+      </div>
+
+      <div class="dish-card">
+        <div class="dish-photo-wrap">
+          <img class="dish-photo" src="img/produtos/batata-frita.jpg" alt="Batata M">
+        </div>
+        <h3 class="dish-name">Batata M</h3>
+        <p class="dish-desc"></p>
+        <div class="dish-bottom">
+          <span class="dish-price">R$ 15,00</span>
+          <div class="qty-box" data-name="Batata M" data-price="15.00"></div>
+        </div>
+      </div>
+
+      <div class="dish-card">
+        <div class="dish-photo-wrap">
+          <img class="dish-photo" src="img/produtos/batata-frita.jpg" alt="Batata G">
+        </div>
+        <h3 class="dish-name">Batata G</h3>
+        <p class="dish-desc">Com bacon e cheddar</p>
+        <div class="dish-bottom">
+          <span class="dish-price">R$ 25,00</span>
+          <div class="qty-box" data-name="Batata G" data-price="25.00"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="why-choose">
+  <div class="container">
+    <h2>Por Que Nos Escolher</h2>
+
+    <div class="why-grid">
+      <div class="why-card">
+        <span class="why-icon">🚚</span>
+        <div class="why-text">
+          <h3>Entrega Rápida</h3>
+          <p>Entrega rápida direto na sua porta</p>
+        </div>
+      </div>
+
+      <div class="why-card">
+        <span class="why-icon">🏅</span>
+        <div class="why-text">
+          <h3>Melhor Qualidade</h3>
+          <p>Ingredientes frescos, sempre</p>
+        </div>
+      </div>
+
+      <div class="why-card">
+        <span class="why-icon">💳</span>
+        <div class="why-text">
+          <h3>Pagamento Fácil</h3>
+          <p>Várias opções de pagamento seguro</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+
+    <div class="footer-brand">
+      <div class="footer-logo">
+        <img src="img/logo-garage-burger.png" alt="Garage Burger" class="footer-logo-mark">
+        <div>
+          <span class="footer-brand-name">GARAGE<span class="accent">BURGER</span></span>
+          <span class="footer-tagline">RÁPIDO, FRESCO, DELICIOSO.</span>
+        </div>
+      </div>
+      <p class="footer-desc">
+        Hambúrguer artesanal premium, feito na brasa com ingredientes selecionados.
+        Potência e sabor com alma de garagem.
+      </p>
+      <div class="footer-social">
+        <a href="#" class="social-btn" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 2 .2 2.4.4.6.2 1 .5 1.5 1 .4.4.7.9 1 1.5.2.5.3 1.2.4 2.4.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 2-.4 2.4-.2.6-.5 1-1 1.5-.4.4-.9.7-1.5 1-.5.2-1.2.3-2.4.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-2-.2-2.4-.4-.6-.2-1-.5-1.5-1-.4-.4-.7-.9-1-1.5-.2-.5-.3-1.2-.4-2.4C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-2 .4-2.4.2-.6.5-1 1-1.5.4-.4.9-.7 1.5-1 .5-.2 1.2-.3 2.4-.4C8.4 2.2 8.8 2.2 12 2.2zm0 1.8c-3.1 0-3.5 0-4.7.1-1 .1-1.6.2-2 .3-.5.2-.8.4-1.2.8-.4.4-.6.7-.8 1.2-.1.4-.3 1-.3 2-.1 1.2-.1 1.6-.1 4.7s0 3.5.1 4.7c.1 1 .2 1.6.3 2 .2.5.4.8.8 1.2.4.4.7.6 1.2.8.4.1 1 .3 2 .3 1.2.1 1.6.1 4.7.1s3.5 0 4.7-.1c1-.1 1.6-.2 2-.3.5-.2.8-.4 1.2-.8.4-.4.6-.7.8-1.2.1-.4.3-1 .3-2 .1-1.2.1-1.6.1-4.7s0-3.5-.1-4.7c-.1-1-.2-1.6-.3-2-.2-.5-.4-.8-.8-1.2-.4-.4-.7-.6-1.2-.8-.4-.1-1-.3-2-.3-1.2-.1-1.6-.1-4.7-.1zm0 4.6a5.4 5.4 0 1 1 0 10.8 5.4 5.4 0 0 1 0-10.8zm0 1.8a3.6 3.6 0 1 0 0 7.2 3.6 3.6 0 0 0 0-7.2zm5.6-2a1.3 1.3 0 1 1 0 2.6 1.3 1.3 0 0 1 0-2.6z"/></svg>
+        </a>
+        <a href="#" class="social-btn" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M13.5 21v-7.8h2.6l.4-3h-3v-1.9c0-.9.2-1.5 1.5-1.5h1.6V4.1c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H7.9v3h2.5V21h3.1z"/></svg>
+        </a>
+        <a href="#" class="social-btn" aria-label="X">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M18.9 3H22l-7 8 8 10h-6.3l-4.9-6.3L5.9 21H3l7.5-8.6L3 3h6.4l4.5 5.8L18.9 3zm-1.1 16h1.7L7.3 5H5.5l12.3 14z"/></svg>
+        </a>
+        <a href="#" class="social-btn" aria-label="TikTok">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M16.6 2h-3.1v13.4a2.9 2.9 0 1 1-2.1-2.8V9.4a6 6 0 1 0 5.2 6V8.2a7.6 7.6 0 0 0 4.4 1.4V6.5a4.5 4.5 0 0 1-4.4-4.5z"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <h4>LINKS RÁPIDOS</h4>
+      <a href="#">Início</a>
+      <a href="#cardapio">Cardápio</a>
+      <a href="#">Ofertas</a>
+      <a href="#">Sobre</a>
+      <a href="#">Contato</a>
+    </div>
+
+    <div class="footer-col">
+      <h4>CONTATO</h4>
+      <span class="footer-contact-item">📞 (XX) XXXXX-XXXX</span>
+      <span class="footer-contact-item">📍 Endereço da loja</span>
+      <span class="footer-contact-item">🕒 Horário de funcionamento a definir</span>
+    </div>
+
+    <div class="footer-col footer-whats-col">
+      <h4>PEÇA PELO WHATSAPP</h4>
+      <p>Faça seu pedido direto com a gente e receba rapidinho, quentinho e fresco.</p>
+      <!-- TODO: usar o mesmo número real do WhatsApp definido em js/cart.js -->
+      <a href="https://wa.me/5500000000000" target="_blank" rel="noopener" class="footer-whats-btn">Chamar no WhatsApp</a>
+    </div>
+
+  </div>
+
+  <div class="footer-bottom">
+    <div class="container footer-bottom-inner">
+      <span>© 2026 Garage Burger. Todos os direitos reservados.</span>
+      <a href="#" class="footer-credit">Site por <strong>Pedro Link</strong></a>
+    </div>
+  </div>
+</footer>
+
+<div class="addon-modal" id="addonModal" hidden>
+  <div class="addon-backdrop" id="addonBackdrop"></div>
+  <div class="addon-content">
+    <div class="cart-panel-header">
+      <h3 id="addonProductName">Produto</h3>
+      <button class="cart-close" id="addonCloseBtn" type="button" aria-label="Fechar">✕</button>
+    </div>
+
+    <span class="cart-section-label">ADICIONAIS</span>
+    <div class="addon-list" id="addonList"></div>
+
+    <div class="cart-total-row">
+      <span>Total</span>
+      <span class="cart-total-value" id="addonTotalValue">R$ 0,00</span>
+    </div>
+
+    <button class="cart-finish-btn" id="addonConfirmBtn" type="button">
+      Adicionar ao carrinho
+    </button>
+  </div>
+</div>
+
+<div class="cart-panel" id="cartPanel" hidden>
+  <div class="cart-panel-header">
+    <h3>SEU PEDIDO</h3>
+    <button class="cart-close" id="cartCloseBtn" type="button" aria-label="Fechar">✕</button>
+  </div>
+
+  <div class="cart-items" id="cartItems"></div>
+
+  <div class="cart-panel-section">
+    <span class="cart-section-label">FORMA DE PAGAMENTO</span>
+    <div class="payment-options" id="paymentOptions">
+      <button class="payment-btn" type="button" data-payment="Pix">Pix</button>
+      <button class="payment-btn" type="button" data-payment="Cartão">Cartão</button>
+      <button class="payment-btn" type="button" data-payment="Dinheiro">Dinheiro</button>
+    </div>
+  </div>
+
+  <div class="cart-panel-section" id="trocoSection" hidden>
+    <span class="cart-section-label">PRECISA DE TROCO PARA QUANTO?</span>
+    <input class="troco-input" id="trocoInput" type="text" placeholder="Ex: R$ 50,00">
+  </div>
+
+  <div class="cart-total-row">
+    <span>Total</span>
+    <span class="cart-total-value" id="cartTotalValue">R$ 0,00</span>
+  </div>
+
+  <button class="cart-finish-btn" id="cartCheckoutBtn" type="button">
+    Finalizar pedido no WhatsApp <span aria-hidden="true">→</span>
+  </button>
+</div>
+
+<button class="cart-toggle" id="cartToggle" type="button" aria-label="Abrir carrinho">
+  🛒
+  <span class="cart-badge" id="cartBadge" hidden>0</span>
+</button>
+
+<script src="js/cart.js"></script>
+</body>
+</html>
