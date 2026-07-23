@@ -12,6 +12,7 @@ const qtyBoxes = new Map(); // nome -> lista de elementos .qty-box (o mesmo prat
 
 let selectedPayment = null;
 let addonProduct = null; // { name, price } do hambúrguer sendo personalizado
+let deliveryMode = 'entrega'; // 'entrega' | 'retirada'
 
 function formatPrice(value) {
   return `R$ ${value.toFixed(2).replace('.', ',')}`;
@@ -19,12 +20,20 @@ function formatPrice(value) {
 
 function getTotals() {
   let totalItems = 0;
-  let totalPrice = 0;
+  let subtotal = 0;
   cart.forEach(({ price, qty }) => {
     totalItems += qty;
-    totalPrice += price * qty;
+    subtotal += price * qty;
   });
-  return { totalItems, totalPrice };
+
+  const bairroSelect = document.getElementById('bairroSelect');
+  const selectedOption = bairroSelect.options[bairroSelect.selectedIndex];
+  const feeRaw = selectedOption ? selectedOption.dataset.fee : '';
+  const deliveryFee = deliveryMode === 'retirada' ? 0 : (feeRaw ? parseFloat(feeRaw) : null);
+
+  const totalPrice = subtotal + (deliveryFee || 0);
+
+  return { totalItems, subtotal, deliveryFee, totalPrice };
 }
 
 function setQty(name, price, qty) {
@@ -130,9 +139,11 @@ document.getElementById('addonConfirmBtn').addEventListener('click', () => {
 
 function renderCartPanel() {
   const itemsEl = document.getElementById('cartItems');
+  const subtotalEl = document.getElementById('subtotalValue');
+  const feeEl = document.getElementById('deliveryFeeValue');
   const totalEl = document.getElementById('cartTotalValue');
   const badgeEl = document.getElementById('cartBadge');
-  const { totalItems, totalPrice } = getTotals();
+  const { totalItems, subtotal, deliveryFee, totalPrice } = getTotals();
 
   if (cart.size === 0) {
     itemsEl.innerHTML = '<p class="cart-empty">Seu carrinho está vazio.</p>';
@@ -158,6 +169,16 @@ function renderCartPanel() {
     });
   }
 
+  subtotalEl.textContent = formatPrice(subtotal);
+
+  if (deliveryMode === 'retirada') {
+    feeEl.textContent = 'Grátis (retirada)';
+  } else if (deliveryFee === null) {
+    feeEl.textContent = 'Selecione o bairro';
+  } else {
+    feeEl.textContent = formatPrice(deliveryFee);
+  }
+
   totalEl.textContent = formatPrice(totalPrice);
 
   if (totalItems > 0) {
@@ -169,7 +190,7 @@ function renderCartPanel() {
 }
 
 function buildWhatsAppMessage() {
-  const { totalPrice } = getTotals();
+  const { subtotal, deliveryFee, totalPrice } = getTotals();
   const lines = ['*Pedido - Garage Burger*', ''];
 
   cart.forEach(({ price, qty }, name) => {
@@ -177,6 +198,34 @@ function buildWhatsAppMessage() {
   });
 
   lines.push('');
+
+  const name = document.getElementById('customerName').value.trim();
+  const phone = document.getElementById('customerPhone').value.trim();
+  if (name) lines.push(`Nome: ${name}`);
+  if (phone) lines.push(`Celular: ${phone}`);
+
+  lines.push('');
+
+  if (deliveryMode === 'retirada') {
+    lines.push('*Retirada no local*');
+  } else {
+    lines.push('*Entrega*');
+    const bairroSelect = document.getElementById('bairroSelect');
+    const bairro = bairroSelect.value;
+    const rua = document.getElementById('ruaInput').value.trim();
+    const numero = document.getElementById('numeroInput').value.trim();
+    const complemento = document.getElementById('complementoInput').value.trim();
+    const referencia = document.getElementById('referenciaInput').value.trim();
+
+    if (bairro) lines.push(`Bairro: ${bairro}`);
+    if (rua) lines.push(`Rua: ${rua}${numero ? `, ${numero}` : ''}`);
+    if (complemento) lines.push(`Complemento: ${complemento}`);
+    if (referencia) lines.push(`Referência: ${referencia}`);
+  }
+
+  lines.push('');
+  lines.push(`Subtotal: ${formatPrice(subtotal)}`);
+  lines.push(`Taxa de entrega: ${deliveryMode === 'retirada' ? 'Grátis (retirada)' : (deliveryFee === null ? 'não selecionada' : formatPrice(deliveryFee))}`);
   lines.push(`*Total: ${formatPrice(totalPrice)}*`);
 
   if (selectedPayment) {
@@ -202,15 +251,25 @@ qtyBoxes.forEach((_, name) => renderQtyBox(name));
 
 const cartToggle = document.getElementById('cartToggle');
 const cartPanel = document.getElementById('cartPanel');
+const cartBackdrop = document.getElementById('cartBackdrop');
 const cartCloseBtn = document.getElementById('cartCloseBtn');
 
+function openCart() {
+  cartPanel.hidden = false;
+  cartBackdrop.hidden = false;
+}
+
+function closeCart() {
+  cartPanel.hidden = true;
+  cartBackdrop.hidden = true;
+}
+
 cartToggle.addEventListener('click', () => {
-  cartPanel.hidden = !cartPanel.hidden;
+  if (cartPanel.hidden) openCart(); else closeCart();
 });
 
-cartCloseBtn.addEventListener('click', () => {
-  cartPanel.hidden = true;
-});
+cartCloseBtn.addEventListener('click', closeCart);
+cartBackdrop.addEventListener('click', closeCart);
 
 document.querySelectorAll('.payment-btn').forEach((btn) => {
   btn.addEventListener('click', () => {
@@ -219,6 +278,17 @@ document.querySelectorAll('.payment-btn').forEach((btn) => {
     document.getElementById('trocoSection').hidden = selectedPayment !== 'Dinheiro';
   });
 });
+
+document.querySelectorAll('.delivery-btn').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    deliveryMode = btn.dataset.mode;
+    document.querySelectorAll('.delivery-btn').forEach((b) => b.classList.toggle('active', b === btn));
+    document.getElementById('deliveryFields').hidden = deliveryMode === 'retirada';
+    renderCartPanel();
+  });
+});
+
+document.getElementById('bairroSelect').addEventListener('change', renderCartPanel);
 
 document.getElementById('cartCheckoutBtn').addEventListener('click', () => {
   if (cart.size === 0) return;
