@@ -4,6 +4,7 @@
   --gold: #E7A320;
   --red: #D22630;
   --white: #FFFFFF;
+  --cream: #FCEFDC;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -198,10 +199,28 @@ body {
 
 .menu-preview {
   position: relative;
-  background: var(--bg-dark);
-  color: var(--white);
+  background: var(--cream);
+  color: var(--bg-dark);
   padding: 64px 0 80px;
   overflow: hidden;
+}
+
+.menu-preview .section-head h2 {
+  color: var(--bg-dark);
+}
+
+.menu-preview .view-all {
+  color: rgba(27,22,19,0.55);
+}
+
+.menu-preview .category-icon {
+  box-shadow: 0 4px 10px rgba(27,22,19,0.15);
+}
+
+.menu-preview .dish-photo-placeholder {
+  background: rgba(27,22,19,0.08);
+  border-color: rgba(27,22,19,0.25);
+  color: rgba(27,22,19,0.55);
 }
 
 .menu-section {
