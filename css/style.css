@@ -699,6 +699,7 @@ body {
   overflow-y: auto;
   background: var(--bg-dark);
   border-left: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px 0 0 20px;
   padding: 24px 20px 32px;
   box-shadow: -24px 0 48px rgba(0,0,0,0.4);
 }
