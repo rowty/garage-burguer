@@ -224,9 +224,23 @@ body {
 }
 
 .menu-section {
-  background: var(--bg-dark);
-  color: var(--white);
+  background: var(--cream);
+  color: var(--bg-dark);
   padding: 8px 0 72px;
+}
+
+.menu-section .section-head h2 {
+  color: var(--bg-dark);
+}
+
+.menu-section .view-all {
+  color: rgba(27,22,19,0.55);
+}
+
+.menu-section .dish-photo-placeholder {
+  background: rgba(27,22,19,0.08);
+  border-color: rgba(27,22,19,0.25);
+  color: rgba(27,22,19,0.55);
 }
 
 .menu-preview::before {
