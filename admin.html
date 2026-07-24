@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel do Dono · Garage Burger</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="admin-body">
+
+<!-- Tela de bloqueio enquanto verifica se é dono -->
+<div class="admin-gate" id="admin-gate">
+  <div class="admin-gate__card">
+    <div class="admin-gate__logo">🍔</div>
+    <p id="admin-gate-message">Verificando acesso…</p>
+    <a href="index.html" class="btn btn-outline admin-gate__back" id="admin-gate-back" style="display:none;">Voltar pro site</a>
+  </div>
+</div>
+
+<div class="admin" id="admin" style="display:none;">
+  <header class="admin__topbar">
+    <div class="admin__brand">
+      <img src="img/logo-garage-burger.png" alt="Garage Burger" class="admin__brand-logo">
+      <div>
+        <div class="admin__brand-title">GARAGE<span class="accent">BURGER</span> · Painel</div>
+        <div class="admin__brand-sub" id="admin-user-email"></div>
+      </div>
+    </div>
+    <div class="admin__topbar-actions">
+      <a href="index.html" class="btn btn-outline">Ver o site</a>
+      <button type="button" class="btn btn-outline" id="admin-logout">Sair</button>
+    </div>
+  </header>
+
+  <nav class="admin__tabs">
+    <button class="admin__tab is-active" data-panel="panel-pedidos">Pedidos</button>
+    <button class="admin__tab" data-panel="panel-cardapio">Cardápio</button>
+    <button class="admin__tab" data-panel="panel-loja">Loja &amp; Promoção</button>
+  </nav>
+
+  <main class="admin__main">
+
+    <!-- PEDIDOS -->
+    <section class="admin-panel is-active" id="panel-pedidos">
+      <div class="admin-panel__head">
+        <h2>Pedidos recebidos</h2>
+        <button type="button" class="btn btn-outline admin__refresh" id="orders-refresh">Atualizar</button>
+      </div>
+      <div id="orders-list"><p class="admin__empty">Carregando…</p></div>
+    </section>
+
+    <!-- CARDÁPIO -->
+    <section class="admin-panel" id="panel-cardapio">
+      <div class="admin-panel__head">
+        <h2>Cardápio</h2>
+        <div class="admin-panel__head-actions">
+          <button type="button" class="btn btn-outline" id="cat-manage">Categorias</button>
+          <button type="button" class="btn btn-solid" id="item-new">+ Novo item</button>
+        </div>
+      </div>
+      <div id="menu-list"><p class="admin__empty">Carregando…</p></div>
+    </section>
+
+    <!-- LOJA & PROMOÇÃO -->
+    <section class="admin-panel" id="panel-loja">
+      <div class="admin-panel__head"><h2>Status da loja</h2></div>
+      <form class="admin-form" id="store-form">
+        <label class="admin-form__toggle">
+          <input type="checkbox" id="store-open">
+          <span>Loja aberta (aceitar pedidos pelo site)</span>
+        </label>
+        <label class="admin-form__label">Horário (aparece no rodapé do site)
+          <input class="admin-form__input" id="store-hours" type="text" placeholder="Ex: Qua a Seg 18h-23h · Ter fechado">
+        </label>
+        <label class="admin-form__label">Mensagem quando fechado
+          <input class="admin-form__input" id="store-closed-message" type="text" placeholder="Ex: Estamos fechados no momento. Volte mais tarde!">
+        </label>
+        <button type="submit" class="btn btn-solid">Salvar loja</button>
+        <span class="admin-form__feedback" id="store-feedback"></span>
+      </form>
+
+      <div class="admin-panel__head admin-panel__head--spaced">
+        <h2>Banner de promoção</h2>
+      </div>
+      <p class="admin-cat__hint">O site ainda não exibe esse banner em nenhuma seção — esses dados ficam prontos pro dia que quiser adicionar um banner de destaque na home.</p>
+      <form class="admin-form" id="promo-form">
+        <label class="admin-form__toggle">
+          <input type="checkbox" id="promo-active">
+          <span>Banner ativo</span>
+        </label>
+        <label class="admin-form__label">Imagem
+          <input class="admin-form__input" id="promo-image" type="text" placeholder="Envie um arquivo ou cole uma URL">
+        </label>
+        <div class="admin-upload">
+          <label class="admin-upload__btn">
+            📷 Enviar imagem do computador
+            <input type="file" id="promo-image-file" accept="image/*" hidden>
+          </label>
+          <span class="admin-upload__status" id="promo-image-status"></span>
+        </div>
+        <label class="admin-form__label">Texto alternativo
+          <input class="admin-form__input" id="promo-alt" type="text" placeholder="Descrição da imagem">
+        </label>
+        <img class="admin-form__preview" id="promo-preview" alt="" style="display:none;">
+        <button type="submit" class="btn btn-solid">Salvar banner</button>
+        <span class="admin-form__feedback" id="promo-feedback"></span>
+      </form>
+    </section>
+
+  </main>
+</div>
+
+<!-- Modal de edição/criação de item do cardápio -->
+<div class="admin-modal" id="item-modal" aria-hidden="true">
+  <div class="admin-modal__overlay" id="item-modal-overlay"></div>
+  <div class="admin-modal__panel">
+    <div class="admin-modal__header">
+      <h3 id="item-modal-title">Novo item</h3>
+      <button type="button" class="admin-modal__close" id="item-modal-close" aria-label="Fechar">✕</button>
+    </div>
+    <form class="admin-form" id="item-form">
+      <input type="hidden" id="item-id-original">
+      <div class="admin-form__row">
+        <label class="admin-form__label">ID (código único)
+          <input class="admin-form__input" id="item-id" type="text" placeholder="ex: opalla" required>
+        </label>
+        <label class="admin-form__label">Categoria
+          <select class="admin-form__input" id="item-category" required></select>
+        </label>
+      </div>
+      <label class="admin-form__label">Nome
+        <input class="admin-form__input" id="item-name" type="text" required>
+      </label>
+      <label class="admin-form__label">Descrição
+        <textarea class="admin-form__input admin-form__textarea" id="item-description"></textarea>
+      </label>
+      <div class="admin-form__row">
+        <label class="admin-form__label">Preço (R$)
+          <input class="admin-form__input" id="item-price" type="number" step="0.01" min="0" required>
+        </label>
+        <label class="admin-form__label">Ordem
+          <input class="admin-form__input" id="item-sort" type="number" step="1" value="0">
+        </label>
+      </div>
+      <label class="admin-form__label">Imagem
+        <input class="admin-form__input" id="item-image" type="text" placeholder="Envie um arquivo ou cole uma URL">
+      </label>
+      <div class="admin-upload">
+        <label class="admin-upload__btn">
+          📷 Enviar imagem do computador
+          <input type="file" id="item-image-file" accept="image/*" hidden>
+        </label>
+        <span class="admin-upload__status" id="item-image-status"></span>
+      </div>
+      <img class="admin-form__preview" id="item-image-preview" alt="" style="display:none;">
+      <label class="admin-form__label">Formato da imagem
+        <select class="admin-form__input" id="item-variant">
+          <option value="">Padrão (preenche o card)</option>
+          <option value="contain">Conter (fundo branco, ex: garrafas)</option>
+        </select>
+      </label>
+      <label class="admin-form__toggle">
+        <input type="checkbox" id="item-customizable">
+        <span>Personalizável (abre modal de adicionais: Queijo, Bacon, Blend)</span>
+      </label>
+      <label class="admin-form__toggle">
+        <input type="checkbox" id="item-available" checked>
+        <span>Disponível (aparece no site)</span>
+      </label>
+      <div class="admin-form__actions">
+        <button type="button" class="btn btn-outline admin-form__delete" id="item-delete" style="display:none;">Excluir item</button>
+        <button type="submit" class="btn btn-solid">Salvar item</button>
+      </div>
+      <span class="admin-form__feedback" id="item-feedback"></span>
+    </form>
+  </div>
+</div>
+
+<!-- Modal de categorias -->
+<div class="admin-modal" id="cat-modal" aria-hidden="true">
+  <div class="admin-modal__overlay" id="cat-modal-overlay"></div>
+  <div class="admin-modal__panel">
+    <div class="admin-modal__header">
+      <h3>Categorias</h3>
+      <button type="button" class="admin-modal__close" id="cat-modal-close" aria-label="Fechar">✕</button>
+    </div>
+    <p class="admin-cat__hint">As categorias organizam o cardápio no site. Ordem menor aparece primeiro. Só dá pra excluir categoria que está vazia.</p>
+    <div id="cat-list"><p class="admin__empty">Carregando…</p></div>
+    <form class="admin-form admin-cat__new" id="cat-form">
+      <h4 class="admin-cat__new-title">Nova categoria</h4>
+      <div class="admin-form__row">
+        <label class="admin-form__label">Nome
+          <input class="admin-form__input" id="cat-name" type="text" placeholder="Ex: Sobremesas" required>
+        </label>
+        <label class="admin-form__label admin-form__label--num">Ordem
+          <input class="admin-form__input" id="cat-sort" type="number" step="1" value="0">
+        </label>
+      </div>
+      <button type="submit" class="btn btn-solid">Adicionar categoria</button>
+      <span class="admin-form__feedback" id="cat-feedback"></span>
+    </form>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/admin.js"></script>
+</body>
+</html>

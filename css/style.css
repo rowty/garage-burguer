@@ -1379,12 +1379,17 @@ select.cart-input option {
   letter-spacing: 0.3px;
 }
 
+.account-modal__header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .account-modal__admin {
   color: var(--gold);
   font-weight: 700;
   font-size: 13px;
   text-decoration: none;
-  margin-right: 12px;
 }
 
 .account-modal__admin:hover { text-decoration: underline; }
@@ -1678,4 +1683,477 @@ select.cart-input option {
 .account__logout:hover {
   border-color: #ff8a7a;
   color: #ff8a7a;
+}
+
+/* ============================================================
+   Painel do dono (admin.html)
+   ============================================================ */
+
+.admin-gate {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.admin-gate__card {
+  text-align: center;
+  max-width: 360px;
+}
+
+.admin-gate__logo {
+  font-size: 40px;
+  margin-bottom: 16px;
+}
+
+.admin-gate__card p {
+  color: rgba(255,255,255,0.7);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.admin__topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 32px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.admin__brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.admin__brand-logo {
+  height: 40px;
+  width: auto;
+}
+
+.admin__brand-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 16px;
+  letter-spacing: 0.3px;
+  color: var(--white);
+}
+
+.admin__brand-title .accent { color: var(--orange); }
+
+.admin__brand-sub {
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+}
+
+.admin__topbar-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.admin__tabs {
+  display: flex;
+  gap: 4px;
+  padding: 0 32px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  overflow-x: auto;
+}
+
+.admin__tab {
+  border: none;
+  background: transparent;
+  color: rgba(255,255,255,0.55);
+  font-weight: 700;
+  font-size: 13px;
+  padding: 16px 18px;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+
+.admin__tab.is-active {
+  color: var(--white);
+  border-bottom-color: var(--orange);
+}
+
+.admin__main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 32px;
+}
+
+.admin-panel { display: none; }
+.admin-panel.is-active { display: block; }
+
+.admin-panel__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.admin-panel__head--spaced { margin-top: 40px; }
+
+.admin-panel__head h2 {
+  font-family: 'Anton', sans-serif;
+  font-size: 20px;
+  color: var(--white);
+}
+
+.admin-panel__head-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.admin__empty {
+  color: rgba(255,255,255,0.5);
+  font-size: 13px;
+  text-align: center;
+  padding: 30px 0;
+}
+
+/* Pedidos */
+
+.admin-order {
+  background: rgba(255,255,255,0.05);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.admin-order__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.admin-order__date {
+  font-size: 12px;
+  color: rgba(255,255,255,0.55);
+}
+
+.admin-order__status-select {
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: var(--bg-dark);
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.admin-order__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 4px;
+}
+
+.admin-order__items {
+  font-size: 12px;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.6;
+  margin: 10px 0;
+}
+
+.admin-order__foot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.admin-order__discount {
+  font-size: 12px;
+  color: var(--gold);
+}
+
+.admin-order__total {
+  font-weight: 700;
+  color: var(--orange);
+}
+
+/* Cardápio */
+
+.admin-menu__cat {
+  font-family: 'Anton', sans-serif;
+  font-size: 14px;
+  color: var(--gold);
+  margin: 24px 0 12px;
+}
+
+.admin-menu__cat:first-child { margin-top: 0; }
+
+.admin-menu__grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.admin-menu__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255,255,255,0.05);
+  border-radius: 10px;
+  padding: 12px 16px;
+}
+
+.admin-menu__item.is-off { opacity: 0.5; }
+
+.admin-menu__item-info {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.admin-menu__item-name {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--white);
+}
+
+.admin-menu__item-price {
+  font-size: 12px;
+  color: var(--orange);
+  font-weight: 700;
+}
+
+.admin-menu__item-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.admin-menu__btn {
+  border: 1px solid rgba(255,255,255,0.2);
+  background: transparent;
+  color: rgba(255,255,255,0.75);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 6px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.admin-menu__btn--edit {
+  border-color: var(--orange);
+  color: var(--orange);
+}
+
+/* Formulários do admin */
+
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.admin-form__row {
+  display: flex;
+  gap: 12px;
+}
+
+.admin-form__row .admin-form__label { flex: 1; }
+.admin-form__label--num { flex: 0 0 100px; }
+
+.admin-form__label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+}
+
+.admin-form__input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(0,0,0,0.22);
+  color: var(--white);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  text-transform: none;
+  letter-spacing: normal;
+  font-weight: 400;
+}
+
+.admin-form__input:focus {
+  outline: none;
+  border-color: var(--orange);
+}
+
+.admin-form__textarea {
+  min-height: 70px;
+  resize: vertical;
+}
+
+.admin-form__toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.8);
+  cursor: pointer;
+}
+
+.admin-form__toggle input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--orange);
+  cursor: pointer;
+}
+
+.admin-form__preview {
+  max-width: 160px;
+  border-radius: 10px;
+  display: block;
+}
+
+.admin-form__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.admin-form__delete {
+  border-color: #ff8a7a;
+  color: #ff8a7a;
+}
+
+.admin-form__feedback {
+  font-size: 12px;
+  color: var(--gold);
+}
+
+.admin-upload {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-upload__btn {
+  border: 1px dashed rgba(255,255,255,0.3);
+  border-radius: 10px;
+  padding: 10px 16px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.75);
+  cursor: pointer;
+}
+
+.admin-upload__btn:hover { border-color: var(--orange); }
+
+.admin-upload__status {
+  font-size: 12px;
+  color: var(--gold);
+}
+
+.admin-cat__hint {
+  font-size: 12px;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.admin-cat {
+  display: grid;
+  grid-template-columns: 70px 1fr auto auto;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.admin-cat__new {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.admin-cat__new-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 13px;
+  color: var(--white);
+  margin-bottom: 12px;
+}
+
+/* Modais do admin (item / categorias) — mesmo estilo do account-modal */
+
+.admin-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.admin-modal.is-open { display: flex; }
+
+.admin-modal__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+}
+
+.admin-modal__panel {
+  position: relative;
+  width: 480px;
+  max-width: 100%;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  background: var(--bg-dark);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  box-shadow: 0 24px 48px rgba(0,0,0,0.5);
+}
+
+.admin-modal__header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  background: var(--bg-dark);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.admin-modal__header h3 {
+  font-family: 'Anton', sans-serif;
+  font-size: 16px;
+  color: var(--white);
+}
+
+.admin-modal__close {
+  border: none;
+  background: transparent;
+  color: var(--white);
+  font-size: 18px;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.admin-modal__close:hover { opacity: 1; }
+
+.admin-modal__panel .admin-form {
+  padding: 24px;
+}
+
+@media (max-width: 640px) {
+  .admin__topbar { flex-direction: column; gap: 14px; align-items: flex-start; }
+  .admin__main { padding: 20px; }
+  .admin-form__row { flex-direction: column; }
+  .admin-cat { grid-template-columns: 1fr; }
 }
