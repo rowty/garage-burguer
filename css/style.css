@@ -1325,3 +1325,357 @@ select.cart-input option {
   line-height: 1.5;
   margin-top: 8px;
 }
+
+/* ============================================================
+   Minha conta — modal (identidade Garage)
+   ============================================================ */
+
+.account-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.account-modal.is-open { display: flex; }
+
+.account-modal__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+}
+
+.account-modal__panel {
+  position: relative;
+  width: 480px;
+  max-width: 100%;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  background: var(--bg-dark);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 20px;
+  box-shadow: 0 24px 48px rgba(0,0,0,0.5);
+}
+
+.account-modal__header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  background: var(--bg-dark);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.account-modal__header h3 {
+  font-family: 'Anton', sans-serif;
+  font-size: 18px;
+  color: var(--white);
+  letter-spacing: 0.3px;
+}
+
+.account-modal__admin {
+  color: var(--gold);
+  font-weight: 700;
+  font-size: 13px;
+  text-decoration: none;
+  margin-right: 12px;
+}
+
+.account-modal__admin:hover { text-decoration: underline; }
+
+.account-modal__close {
+  border: none;
+  background: transparent;
+  color: var(--white);
+  font-size: 18px;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.account-modal__close:hover { opacity: 1; }
+
+.account-modal__body {
+  padding: 24px;
+}
+
+.account__empty {
+  color: rgba(255,255,255,0.6);
+  font-size: 13px;
+  text-align: center;
+  padding: 20px 0;
+}
+
+.account__points {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: linear-gradient(135deg, var(--gold), var(--orange));
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.account__points-value {
+  font-family: 'Anton', sans-serif;
+  font-size: 32px;
+  color: var(--bg-dark);
+  line-height: 1;
+}
+
+.account__points-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(27,22,19,0.75);
+}
+
+.account__form {
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.account__section-title {
+  font-family: 'Anton', sans-serif;
+  font-size: 14px;
+  color: var(--white);
+  letter-spacing: 0.3px;
+  margin-bottom: 14px;
+}
+
+.account__label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 10px;
+}
+
+.account__field-row {
+  display: flex;
+  gap: 12px;
+}
+
+.account__field-row .account__label--grow { flex: 1; }
+.account__field-row .account__label--num { flex: 0 0 90px; }
+
+.account__input {
+  width: 100%;
+  padding: 13px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(0,0,0,0.22);
+  color: var(--white);
+  font-family: 'Inter', sans-serif;
+  font-size: 13px;
+  text-transform: none;
+  letter-spacing: normal;
+  font-weight: 400;
+}
+
+.account__input::placeholder { color: rgba(255,255,255,0.4); }
+
+.account__save {
+  margin-top: 4px;
+  padding: 12px 24px;
+  font-size: 13px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+}
+
+.account__feedback {
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 12px;
+  color: var(--gold);
+}
+
+.account__orders-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.account__orders-refresh {
+  border: none;
+  background: transparent;
+  color: var(--orange);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.account-stats {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.account-stat {
+  flex: 1;
+  background: rgba(255,255,255,0.05);
+  border-radius: 10px;
+  padding: 12px;
+  text-align: center;
+}
+
+.account-stat__value {
+  display: block;
+  font-family: 'Anton', sans-serif;
+  font-size: 20px;
+  color: var(--white);
+}
+
+.account-stat__value--ok { color: #6fd88a; }
+.account-stat__value--pending { color: var(--gold); }
+
+.account-stat__label {
+  font-size: 10px;
+  color: rgba(255,255,255,0.55);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.account-order {
+  background: rgba(255,255,255,0.05);
+  border-radius: 14px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.account-order__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.account-order__numero {
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--white);
+}
+
+.account-order__status {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.12);
+  color: var(--white);
+}
+
+.account-order__status--entregue { background: rgba(111,216,138,0.18); color: #6fd88a; }
+.account-order__status--cancelado { background: rgba(255,138,122,0.18); color: #ff8a7a; }
+.account-order__status--novo,
+.account-order__status--preparando,
+.account-order__status--saiu { background: rgba(231,163,32,0.18); color: var(--gold); }
+
+.account-order__meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  color: rgba(255,255,255,0.55);
+  margin-bottom: 6px;
+}
+
+.account-order__total {
+  color: var(--orange);
+  font-weight: 700;
+}
+
+.account-order__endereco {
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  margin-bottom: 12px;
+}
+
+.account-order__foot {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.account-order__details-btn,
+.account-order__repeat {
+  border: none;
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.account-order__details-btn {
+  background: rgba(255,255,255,0.1);
+  color: var(--white);
+}
+
+.account-order__repeat {
+  background: var(--orange);
+  color: var(--white);
+}
+
+.account-order__details {
+  display: none;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+
+.account-order__details.is-open { display: block; }
+
+.account-order__items {
+  font-size: 12px;
+  color: rgba(255,255,255,0.75);
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.account-order__breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.55);
+}
+
+.account-order__cancel-note {
+  margin-top: 12px;
+  font-size: 11px;
+  color: rgba(255,255,255,0.45);
+  line-height: 1.5;
+}
+
+.account__logout {
+  width: 100%;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: transparent;
+  color: rgba(255,255,255,0.7);
+  padding: 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 8px;
+}
+
+.account__logout:hover {
+  border-color: #ff8a7a;
+  color: #ff8a7a;
+}

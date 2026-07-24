@@ -378,10 +378,23 @@
   </div>
 </div>
 
+<!-- Modal "Minha conta" -->
+<div class="account-modal" id="account-modal" aria-hidden="true">
+  <div class="account-modal__overlay" id="account-modal-overlay"></div>
+  <div class="account-modal__panel">
+    <div class="account-modal__header">
+      <h3>Minha conta</h3>
+      <button type="button" class="account-modal__close" id="account-modal-close" aria-label="Fechar">✕</button>
+    </div>
+    <div class="account-modal__body" id="account-modal-body"></div>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/supabase-client.js"></script>
 <script src="js/menu.js"></script>
 <script src="js/auth.js"></script>
+<script src="js/account.js"></script>
 <script src="js/cart.js"></script>
 </body>
 </html>

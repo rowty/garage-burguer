@@ -511,6 +511,16 @@ function closeCart() {
   cartBackdrop.hidden = true;
 }
 
+// API mínima pro account.js usar no "Pedir de novo".
+window.BH = window.BH || {};
+window.BH.cart = {
+  addRaw: (item) => {
+    const existingQty = cart.get(item.name)?.qty || 0;
+    setQty(item.name, item.price, existingQty + (item.qty || 1));
+  },
+  openDrawer: () => openCart(),
+};
+
 cartToggle.addEventListener('click', () => {
   if (cartPanel.hidden) openCart(); else closeCart();
 });
