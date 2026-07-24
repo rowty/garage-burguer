@@ -407,9 +407,11 @@ function persistUltimaMovimentacao() {
   if (state.log.length) window.BH.store.insertMovimentacao(state.log[0]);
 }
 
-function resetDemo() {
-  state = seedState();
-  window.BH.store.reseed(SEED_INSUMOS, SEED_PRODUTOS);
+// Zera a quantidade em estoque de todos os insumos (mantém cadastros, fichas
+// e histórico). Reflete no state em memória e grava no Supabase.
+function limparEstoque() {
+  Object.keys(state.insumos).forEach((id) => { state.insumos[id].estoque = 0; });
+  window.BH.store.zerarEstoque();
   renderAll();
 }
 
@@ -1695,9 +1697,18 @@ function initForms() {
     }
   });
 
-  document.getElementById('reset-demo').addEventListener('click', () => {
-    if (confirm('Isso apaga as movimentações, os insumos e produtos que você criou ou editou (em todos os aparelhos), e volta tudo pros valores iniciais. Confirmar?')) {
-      resetDemo();
+  document.getElementById('limpar-estoque').addEventListener('click', () => {
+    const resposta = prompt(
+      'Isso zera a quantidade em estoque de TODOS os insumos (em todos os aparelhos). ' +
+      'Seus cadastros, fichas técnicas e histórico continuam intactos.\n\n' +
+      'Pra confirmar, digite CONFIRMO:'
+    );
+    if (resposta === null) return; // cancelou
+    if (resposta.trim().toUpperCase() === 'CONFIRMO') {
+      limparEstoque();
+      alert('Estoque zerado. Agora é só lançar as entradas pra recontar.');
+    } else {
+      alert('Não confirmado — o estoque não foi alterado.');
     }
   });
 }

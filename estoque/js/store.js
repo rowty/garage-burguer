@@ -142,6 +142,16 @@
       });
     },
 
+    // Zera a quantidade em estoque de TODOS os insumos (estoque = 0), sem
+    // mexer em cadastros, fichas nem histórico. Usado pelo botão "Zerar o
+    // estoque" — pra recontar a partir do zero.
+    zerarEstoque: function () {
+      return enqueue('zerar estoque', function () {
+        return sb.from('insumos').update({ estoque: 0, updated_at: new Date().toISOString() })
+          .neq('id', '__nunca__').then(check);
+      });
+    },
+
     // Resetar demo: apaga tudo e regrava os seeds (SEED_INSUMOS/SEED_PRODUTOS).
     reseed: function (seedInsumos, seedProdutos) {
       return enqueue('resetar', function () {
