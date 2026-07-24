@@ -7,7 +7,6 @@ const ADDONS = [
 ];
 
 const cart = new Map(); // nome -> { price, qty }
-const qtyBoxes = new Map(); // nome -> lista de elementos .qty-box (o mesmo prato pode aparecer em mais de uma seção)
 
 let selectedPayment = null;
 let addonProduct = null; // { name, price } do hambúrguer sendo personalizado
@@ -46,34 +45,42 @@ function setQty(name, price, qty) {
   renderCartPanel();
 }
 
-/* Dish card qty stepper */
+/* Dish card qty stepper
+   O cardápio pode ser inserido no DOM depois deste script (ele vem do
+   Supabase de forma assíncrona, via menu.js). Por isso os cliques nos
+   botões são tratados por delegação de evento (um listener só, no
+   document, lá embaixo em "Wiring") em vez de um listener por botão — daí
+   não importa quando o card do prato aparece na página. */
 
-function renderQtyBox(name) {
-  const boxes = qtyBoxes.get(name);
-  if (!boxes) return;
+function renderQtyBoxContent(box) {
+  const name = box.dataset.name;
   const qty = cart.get(name)?.qty || 0;
 
-  boxes.forEach((box) => {
-    const price = parseFloat(box.dataset.price);
+  if (qty <= 0) {
+    box.innerHTML = '<button class="add-btn" type="button">+ Adicionar</button>';
+    return;
+  }
 
-    if (qty <= 0) {
-      box.innerHTML = '<button class="add-btn" type="button">+ Adicionar</button>';
-      if (box.dataset.customizable === 'true') {
-        box.querySelector('.add-btn').addEventListener('click', () => openAddonModal(name, price));
-      } else {
-        box.querySelector('.add-btn').addEventListener('click', () => setQty(name, price, 1));
-      }
-      return;
-    }
+  box.innerHTML = `
+    <button class="qty-btn minus" type="button" aria-label="Diminuir">−</button>
+    <span class="qty-value">${qty}</span>
+    <button class="qty-btn plus" type="button" aria-label="Aumentar">+</button>
+  `;
+}
 
-    box.innerHTML = `
-      <button class="qty-btn minus" type="button" aria-label="Diminuir">−</button>
-      <span class="qty-value">${qty}</span>
-      <button class="qty-btn plus" type="button" aria-label="Aumentar">+</button>
-    `;
-    box.querySelector('.minus').addEventListener('click', () => setQty(name, price, qty - 1));
-    box.querySelector('.plus').addEventListener('click', () => setQty(name, price, qty + 1));
+// Atualiza todo box .qty-box que representa este prato (pode aparecer em
+// mais de uma seção, ex: "Mais Pedidos" + a categoria dele).
+function renderQtyBox(name) {
+  document.querySelectorAll('.qty-box').forEach((box) => {
+    if (box.dataset.name === name) renderQtyBoxContent(box);
   });
+}
+
+// Preenche o conteúdo inicial ("+ Adicionar") de todo .qty-box presente no
+// DOM agora. Chamado no carregamento e de novo sempre que o cardápio
+// dinâmico termina de renderizar (evento 'bh:menu-rendered').
+function renderAllQtyBoxes() {
+  document.querySelectorAll('.qty-box').forEach(renderQtyBoxContent);
 }
 
 /* Addon modal (personalização do hambúrguer) */
@@ -240,13 +247,31 @@ function buildWhatsAppMessage() {
 
 /* Wiring */
 
-document.querySelectorAll('.qty-box').forEach((box) => {
-  const name = box.dataset.name;
-  if (!qtyBoxes.has(name)) qtyBoxes.set(name, []);
-  qtyBoxes.get(name).push(box);
-});
+renderAllQtyBoxes();
+document.addEventListener('bh:menu-rendered', renderAllQtyBoxes);
 
-qtyBoxes.forEach((_, name) => renderQtyBox(name));
+// Delegação: um clique em qualquer .qty-box (do cardápio inteiro, mesmo o
+// que ainda nem existia quando a página carregou) é resolvido aqui.
+document.addEventListener('click', (event) => {
+  const box = event.target.closest('.qty-box');
+  if (!box) return;
+
+  const name = box.dataset.name;
+  const price = parseFloat(box.dataset.price);
+  const qty = cart.get(name)?.qty || 0;
+
+  if (event.target.closest('.add-btn')) {
+    if (box.dataset.customizable === 'true') {
+      openAddonModal(name, price);
+    } else {
+      setQty(name, price, 1);
+    }
+  } else if (event.target.closest('.minus')) {
+    setQty(name, price, qty - 1);
+  } else if (event.target.closest('.plus')) {
+    setQty(name, price, qty + 1);
+  }
+});
 
 const cartToggle = document.getElementById('cartToggle');
 const cartPanel = document.getElementById('cartPanel');
