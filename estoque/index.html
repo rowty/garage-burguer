@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estoque · Garage Burger</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- Login com Supabase Auth — só contas marcadas como dono (is_owner) entram -->
+<div class="login-screen" id="login-screen">
+  <div class="login-card">
+    <div class="login-card__logo">🍔</div>
+    <h1>Painel de Estoque</h1>
+    <p class="login-card__tag">Garage Burger · acesso restrito ao dono</p>
+    <form id="login-form">
+      <input type="email" id="login-email" placeholder="E-mail" autocomplete="username" required>
+      <input type="password" id="login-password" placeholder="Senha" autocomplete="current-password" required>
+      <button type="submit">Entrar</button>
+      <p class="login-card__error" id="login-error"></p>
+    </form>
+    <p class="login-card__note">Use a mesma conta de dono do site. Os dados ficam no Supabase e sincronizam entre todos os aparelhos.</p>
+  </div>
+</div>
+
+<!-- App -->
+<div class="app" id="app">
+
+  <header class="topbar">
+    <div class="container topbar__inner">
+      <div class="topbar__logo">🍔</div>
+      <div>
+        <div class="topbar__title"><span>GARAGE</span>BURGER · Estoque</div>
+      </div>
+      <button type="button" class="topbar__badge topbar__logout" id="logout-btn">Sair</button>
+    </div>
+  </header>
+
+  <!-- Aviso de falha ao gravar/ler no Supabase (some sozinho no próximo sucesso) -->
+  <div class="sync-banner" id="sync-banner" role="alert"></div>
+
+  <nav class="tabs">
+    <button class="tab is-active" data-panel="panel-estoque">Estoque Atual</button>
+    <button class="tab" data-panel="panel-venda">Lançar Venda</button>
+    <button class="tab" data-panel="panel-perdas">Perdas</button>
+    <button class="tab" data-panel="panel-entrada">Entrada de Estoque</button>
+    <button class="tab" data-panel="panel-cadastros">Cadastros</button>
+    <button class="tab" data-panel="panel-fichas">Fichas Técnicas</button>
+    <button class="tab" data-panel="panel-financeiro">Financeiro</button>
+    <button class="tab" data-panel="panel-historico">Histórico</button>
+  </nav>
+
+  <div class="container">
+
+    <section class="panel is-active" id="panel-estoque">
+      <div class="panel__header">
+        <h2 class="panel__title">Estoque Atual</h2>
+        <p class="panel__desc">Visão rápida de tudo que tem na casa agora. Itens em vermelho estão no limite ou abaixo do mínimo, é hora de repor.</p>
+      </div>
+      <div class="stock-grid" id="estoque-grid"></div>
+    </section>
+
+    <section class="panel" id="panel-venda">
+      <div class="panel__header">
+        <h2 class="panel__title">Lançar Venda</h2>
+        <p class="panel__desc">Monta o pedido inteiro: adiciona quantos itens quiser, personaliza cada um, e só desconta o estoque quando finalizar. Nada é descontado enquanto você ainda está montando.</p>
+      </div>
+
+      <div class="card">
+        <span class="field-label-standalone">Colar pedido do WhatsApp</span>
+        <div class="field">
+          <textarea id="venda-whatsapp-texto" rows="6" placeholder="Cola aqui a mensagem que o cliente mandou no WhatsApp..."></textarea>
+        </div>
+        <div class="modal-actions" style="justify-content: flex-end;">
+          <button type="button" class="btn btn--ghost" id="venda-whatsapp-limpar">Limpar</button>
+          <button type="button" class="btn" id="venda-whatsapp-processar">Processar pedido</button>
+        </div>
+        <p class="feedback" id="venda-whatsapp-feedback"></p>
+      </div>
+
+      <div class="card">
+        <div class="form-row">
+          <div class="field">
+            <label for="venda-produto">Produto</label>
+            <select id="venda-produto"></select>
+          </div>
+          <div class="field" style="flex: 0 0 120px;">
+            <label for="venda-quantidade">Quantidade</label>
+            <input type="number" id="venda-quantidade" min="1" value="1">
+          </div>
+          <button type="button" class="btn btn--ghost" id="venda-add-item">+ Adicionar ao pedido</button>
+        </div>
+
+        <div class="ficha-editor">
+          <span class="field-label-standalone">Personalizar esse item: zera pra tirar do pedido, ou aumenta pra pedir extra</span>
+          <div id="venda-personalizacao-rows" class="personalizacao-grid"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="field-label-standalone">Pedido atual</span>
+        <div id="pedido-itens-list" class="pedido-itens-list"></div>
+        <div class="pedido-total-row">
+          <span>Total</span>
+          <span id="pedido-total-valor">R$ 0,00</span>
+        </div>
+        <div class="modal-actions" style="justify-content: space-between;">
+          <button type="button" class="btn btn--ghost" id="pedido-limpar">Limpar pedido</button>
+          <button type="button" class="btn" id="pedido-finalizar">Finalizar pedido e dar baixa</button>
+        </div>
+        <p class="feedback" id="venda-feedback"></p>
+        <button type="button" class="btn btn--ghost" id="pedido-imprimir" style="display: none;">🖨️ Imprimir comprovante</button>
+      </div>
+    </section>
+
+    <!-- Comprovante: só aparece na impressão (@media print), fica oculto na tela -->
+    <div id="recibo-print" class="recibo-print">
+      <div class="recibo-print__header">
+        <div class="recibo-print__logo">🍔 GARAGE BURGER</div>
+        <div>Comprovante de pedido</div>
+      </div>
+      <div class="recibo-print__data" id="recibo-print-data"></div>
+      <div class="recibo-print__itens" id="recibo-print-itens"></div>
+      <div class="recibo-print__total">
+        <span>Total</span>
+        <span id="recibo-print-total"></span>
+      </div>
+      <div class="recibo-print__footer">Obrigado pela preferência! 🍔</div>
+    </div>
+
+    <section class="panel" id="panel-perdas">
+      <div class="panel__header">
+        <h2 class="panel__title">Perdas</h2>
+        <p class="panel__desc">Registra quebras, consumo interno e itens fora do padrão que não passam pelo caixa, como pão amassado, produto vencido, um lanche que a equipe comeu. Desconta do estoque na hora, sem contar como venda.</p>
+      </div>
+
+      <div class="card">
+        <span class="field-label-standalone">O que você quer descartar?</span>
+        <div class="perda-toggle">
+          <button type="button" class="btn perda-toggle__btn is-active" id="perda-modo-produto" data-modo="produto">Produto pronto (ex: um hambúrguer)</button>
+          <button type="button" class="btn btn--ghost perda-toggle__btn" id="perda-modo-insumo" data-modo="insumo">Insumo direto (ex: pão, embalagem)</button>
+        </div>
+
+        <div class="form-row" id="perda-produto-row">
+          <div class="field">
+            <label for="perda-produto">Produto</label>
+            <select id="perda-produto"></select>
+          </div>
+          <div class="field" style="flex: 0 0 120px;">
+            <label for="perda-produto-quantidade">Quantidade</label>
+            <input type="number" id="perda-produto-quantidade" min="1" value="1">
+          </div>
+        </div>
+
+        <div class="ficha-editor" id="perda-personalizacao-wrap">
+          <span class="field-label-standalone">Personalizar esse item: zera o que não foi de fato perdido (ex: perdeu só o pão, não o resto)</span>
+          <div id="perda-personalizacao-rows" class="personalizacao-grid"></div>
+        </div>
+
+        <div class="form-row" id="perda-insumo-row" style="display: none;">
+          <div class="field">
+            <label for="perda-insumo">Insumo</label>
+            <select id="perda-insumo"></select>
+          </div>
+          <div class="field" style="flex: 0 0 120px;">
+            <label for="perda-insumo-quantidade">Quantidade</label>
+            <input type="number" id="perda-insumo-quantidade" min="0.01" step="0.01" value="1">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="field">
+            <label for="perda-motivo">Motivo</label>
+            <select id="perda-motivo">
+              <option value="Consumo interno">Consumo interno (equipe comeu/bebeu)</option>
+              <option value="Fora do padrão">Fora do padrão (amassado, quebrado, deformado)</option>
+              <option value="Vencido">Vencido / estragado</option>
+              <option value="Erro de preparo">Erro de preparo</option>
+              <option value="Outro">Outro</option>
+            </select>
+          </div>
+          <div class="field" id="perda-motivo-outro-field" style="display: none;">
+            <label for="perda-motivo-outro">Detalhe do motivo</label>
+            <input type="text" id="perda-motivo-outro" placeholder="Descreve o motivo">
+          </div>
+        </div>
+
+        <div class="modal-actions" style="justify-content: flex-end;">
+          <button type="button" class="btn" id="perda-registrar">Registrar perda e descontar do estoque</button>
+        </div>
+        <p class="feedback" id="perda-feedback"></p>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-entrada">
+      <div class="panel__header">
+        <h2 class="panel__title">Entrada de Estoque</h2>
+        <p class="panel__desc">Chegou mercadoria, registra aqui pra somar no estoque do insumo.</p>
+      </div>
+      <div class="card">
+        <form id="entrada-form">
+          <div class="form-row">
+            <div class="field">
+              <label for="entrada-insumo">Insumo</label>
+              <select id="entrada-insumo"></select>
+            </div>
+            <div class="field" style="flex: 0 0 160px;">
+              <label for="entrada-quantidade">Quantidade recebida</label>
+              <input type="number" id="entrada-quantidade" min="1" required>
+            </div>
+            <button type="submit" class="btn">Registrar entrada</button>
+          </div>
+          <p class="feedback" id="entrada-feedback"></p>
+        </form>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-cadastros">
+      <div class="panel__header">
+        <h2 class="panel__title">Cadastros</h2>
+        <p class="panel__desc">Cadastre novos insumos e produtos do cardápio, ou edite os valores dos que já existem: preço, custo, unidade e receita.</p>
+      </div>
+
+      <div class="cadastro-section">
+        <div class="cadastro-section__header">
+          <h3 class="cadastro-section__title">Insumos</h3>
+          <button type="button" class="btn" id="novo-insumo-btn">+ Novo insumo</button>
+        </div>
+        <div class="cadastro-list" id="insumos-cadastro-list"></div>
+      </div>
+
+      <div class="cadastro-section">
+        <div class="cadastro-section__header">
+          <h3 class="cadastro-section__title">Produtos do cardápio</h3>
+          <button type="button" class="btn" id="novo-produto-btn">+ Novo produto</button>
+        </div>
+        <div class="cadastro-list" id="produtos-cadastro-list"></div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-fichas">
+      <div class="panel__header">
+        <h2 class="panel__title">Fichas Técnicas</h2>
+        <p class="panel__desc">A composição de cada produto: é isso que o sistema usa pra saber o que descontar quando você lança uma venda. Produtos compostos (como o Box) mostram os insumos já multiplicados. Clica em "Editar" pra mudar a receita, ou cadastra uma ficha nova.</p>
+        <button type="button" class="btn" id="nova-ficha-btn" style="margin-top: 0.9rem;">+ Nova ficha técnica</button>
+      </div>
+      <div id="fichas-wrap" class="recipe-tree"></div>
+    </section>
+
+    <section class="panel" id="panel-financeiro">
+      <div class="panel__header">
+        <h2 class="panel__title">Financeiro</h2>
+        <p class="panel__desc">Receita das vendas, custo dos insumos que saíram nelas, prejuízo com perdas, lucro líquido e o que foi gasto repondo estoque, com base nas movimentações registradas.</p>
+      </div>
+      <div class="finance-summary">
+        <div class="finance-card finance-card--in">
+          <span class="finance-card__label">Vendas (receita)</span>
+          <span class="finance-card__value" id="finance-total-in">R$ 0,00</span>
+        </div>
+        <div class="finance-card finance-card--out">
+          <span class="finance-card__label">Custo dos insumos vendidos</span>
+          <span class="finance-card__value" id="finance-total-cost">R$ 0,00</span>
+        </div>
+        <div class="finance-card finance-card--out">
+          <span class="finance-card__label">Perdas (prejuízo)</span>
+          <span class="finance-card__value" id="finance-total-perdas">R$ 0,00</span>
+        </div>
+        <div class="finance-card finance-card--balance">
+          <span class="finance-card__label">Lucro líquido</span>
+          <span class="finance-card__value" id="finance-profit">R$ 0,00</span>
+        </div>
+        <div class="finance-card finance-card--out">
+          <span class="finance-card__label">Saiu (reposição de estoque)</span>
+          <span class="finance-card__value" id="finance-total-out">R$ 0,00</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="log-list" id="finance-list"></div>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-historico">
+      <div class="panel__header">
+        <h2 class="panel__title">Histórico de Movimentações</h2>
+        <p class="panel__desc">Últimas entradas e saídas registradas no estoque.</p>
+      </div>
+      <div class="card">
+        <div class="log-list" id="log-list"></div>
+      </div>
+      <button class="btn btn--ghost" id="reset-demo">Resetar estoque pros valores iniciais</button>
+    </section>
+
+  </div>
+
+</div>
+
+<!-- Mini modal de reposição rápida (aberto pelo botão "Repor" de cada insumo) -->
+<div class="modal-overlay" id="repor-modal-overlay">
+  <div class="modal-card">
+    <div class="modal-card__header">
+      <div>
+        <h3 class="modal-card__title" id="repor-modal-title">Repor insumo</h3>
+        <p class="modal-card__sub" id="repor-modal-sub"></p>
+      </div>
+      <button type="button" class="modal-card__close" id="repor-close" aria-label="Fechar">✕</button>
+    </div>
+    <form id="repor-form">
+      <div class="modal-card__body">
+        <div class="field">
+          <label for="repor-quantidade">Quantidade recebida</label>
+          <input type="number" id="repor-quantidade" min="1" required>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn--ghost" id="repor-cancel">Cancelar</button>
+        <button type="submit" class="btn">Registrar entrada</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal de criar/editar insumo -->
+<div class="modal-overlay" id="insumo-modal-overlay">
+  <div class="modal-card">
+    <div class="modal-card__header">
+      <h3 class="modal-card__title" id="insumo-modal-title">Novo insumo</h3>
+      <button type="button" class="modal-card__close" id="insumo-close" aria-label="Fechar">✕</button>
+    </div>
+    <form id="insumo-form">
+      <div class="modal-card__body">
+        <div class="field">
+          <label for="insumo-nome">Nome</label>
+          <input type="text" id="insumo-nome" required>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="insumo-unidade">Unidade</label>
+            <select id="insumo-unidade">
+              <option value="g">g (grama)</option>
+              <option value="ml">ml (mililitro)</option>
+              <option value="un">un (unidade)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="insumo-custo">Custo por unidade (R$)</label>
+            <input type="number" id="insumo-custo" step="0.0001" min="0" required>
+          </div>
+        </div>
+        <div class="form-row" id="insumo-estoque-row">
+          <div class="field" id="insumo-estoque-field">
+            <label for="insumo-estoque">Estoque inicial</label>
+            <input type="number" id="insumo-estoque" min="0" step="0.01" required>
+          </div>
+          <div class="field">
+            <label for="insumo-minimo">Estoque mínimo (alerta)</label>
+            <input type="number" id="insumo-minimo" min="0" step="0.01" required>
+          </div>
+        </div>
+        <p class="field-hint" id="insumo-estoque-hint" style="display:none;">Pra mudar a quantidade em estoque use as abas Entrada de Estoque ou Perdas. Aqui você ajusta só o mínimo do alerta.</p>
+        <p class="feedback" id="insumo-feedback"></p>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn--danger" id="insumo-remover" style="display:none;">Remover</button>
+        <button type="button" class="btn btn--ghost" id="insumo-cancel">Cancelar</button>
+        <button type="submit" class="btn">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal de criar/editar produto (com editor de ficha técnica) -->
+<div class="modal-overlay" id="produto-modal-overlay">
+  <div class="modal-card modal-card--wide">
+    <div class="modal-card__header">
+      <h3 class="modal-card__title" id="produto-modal-title">Novo produto</h3>
+      <button type="button" class="modal-card__close" id="produto-close" aria-label="Fechar">✕</button>
+    </div>
+    <form id="produto-form">
+      <div class="modal-card__body">
+        <div class="form-row">
+          <div class="field">
+            <label for="produto-nome">Nome</label>
+            <input type="text" id="produto-nome" required>
+          </div>
+          <div class="field" style="flex: 0 0 170px;">
+            <label for="produto-preco">Preço de venda (R$)</label>
+            <input type="number" id="produto-preco" step="0.01" min="0">
+          </div>
+        </div>
+
+        <label class="checkbox-field">
+          <input type="checkbox" id="produto-vendavel" checked>
+          Vendável direto (aparece em "Lançar Venda"). Desmarca se for um item interno, usado só dentro de outro produto, como o mini burguer dentro do Box.
+        </label>
+
+        <div class="ficha-editor">
+          <span class="field-label-standalone">Ficha técnica da receita (opcional)</span>
+          <p class="field-hint">Deixe vazio pra itens revendidos, tipo bebida em lata ou garrafa: o produto vende normal e não dá baixa em insumo. Preencha quando a venda consome matéria-prima, como hambúrguer ou porção.</p>
+          <div id="ficha-editor-rows"></div>
+          <button type="button" class="btn btn--ghost" id="ficha-add-row">+ Adicionar item</button>
+        </div>
+
+        <p class="feedback" id="produto-feedback"></p>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn--danger" id="produto-remover" style="display:none;">Remover</button>
+        <button type="button" class="btn btn--ghost" id="produto-cancel">Cancelar</button>
+        <button type="submit" class="btn">Salvar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/store.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
