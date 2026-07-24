@@ -154,16 +154,27 @@
     novo: 'Recebido', preparando: 'Preparando', saiu: 'Saiu pra entrega',
     entregue: 'Entregue', cancelado: 'Cancelado'
   };
+  // Mensagem que abre pronta no WhatsApp do cliente quando o status muda.
+  var STATUS_WHATSAPP_MESSAGE = {
+    novo: 'Recebemos seu pedido! Já vamos preparar. 🍔',
+    preparando: 'Seu pedido já está sendo preparado! 👨‍🍳',
+    saiu: 'Seu pedido saiu pra entrega! 🚚',
+    entregue: 'Seu pedido foi entregue. Bom apetite! 🍔',
+    cancelado: 'Seu pedido foi cancelado. Qualquer dúvida, chama a gente por aqui.'
+  };
+  var ORDERS_BY_ID = {};
 
   function loadOrders() {
     var listEl = document.getElementById('orders-list');
     listEl.innerHTML = '<p class="admin__empty">Carregando…</p>';
-    sb.from('orders').select('*').order('created_at', { ascending: false }).limit(100).then(function (res) {
+    sb.from('orders').select('*, profiles(full_name, phone)').order('created_at', { ascending: false }).limit(100).then(function (res) {
       if (res.error) {
         listEl.innerHTML = '<p class="admin__empty">Erro ao carregar pedidos.</p>';
         return;
       }
       var orders = res.data || [];
+      ORDERS_BY_ID = {};
+      orders.forEach(function (o) { ORDERS_BY_ID[o.id] = o; });
       if (!orders.length) {
         listEl.innerHTML = '<p class="admin__empty">Nenhum pedido ainda.</p>';
         return;
@@ -174,7 +185,36 @@
           updateOrderStatus(sel.dataset.orderStatus, sel.value, sel);
         });
       });
+      listEl.querySelectorAll('[data-order-whats]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var order = ORDERS_BY_ID[btn.dataset.orderWhats];
+          if (!order) return;
+          var select = listEl.querySelector('[data-order-status="' + order.id + '"]');
+          openWhatsAppStatus(order, select ? select.value : order.status);
+        });
+      });
     });
+  }
+
+  // Telefone do cliente (convidado ou cadastrado) já no formato que o
+  // WhatsApp aceita no link (com DDI 55 na frente).
+  function customerPhoneOf(order) {
+    var raw = order.guest_phone || (order.profiles && order.profiles.phone) || '';
+    var digits = String(raw).replace(/\D/g, '');
+    if (!digits) return null;
+    return digits.length <= 11 ? '55' + digits : digits;
+  }
+
+  // Abre o WhatsApp com a mensagem do status já escrita pro celular do
+  // cliente; o dono só confere e clica em enviar. Não existe envio
+  // automático sem integração paga (WhatsApp Business API), então isso é
+  // feito com um clique a mais.
+  function openWhatsAppStatus(order, status) {
+    var phone = customerPhoneOf(order);
+    var msg = STATUS_WHATSAPP_MESSAGE[status];
+    if (!phone || !msg) return;
+    var text = encodeURIComponent('Garage Burger: ' + msg);
+    window.open('https://wa.me/' + phone + '?text=' + text, '_blank');
   }
 
   function orderCardHtml(order) {
@@ -190,10 +230,16 @@
     var entrega = order.tipo_entrega === 'retirada'
       ? 'Retirada no local'
       : esc(order.endereco_completo || order.bairro || '');
+    var whatsBtn = customerPhoneOf(order)
+      ? '<button type="button" class="admin-menu__btn admin-order__whats" data-order-whats="' + order.id + '" title="Avisar cliente no WhatsApp">📲 Avisar</button>'
+      : '';
     return '<div class="admin-order">' +
       '<div class="admin-order__head">' +
         '<span class="admin-order__date">' + formatDate(order.created_at) + '</span>' +
-        '<select class="admin-order__status-select" data-order-status="' + order.id + '">' + options + '</select>' +
+        '<div class="admin-order__head-actions">' +
+          whatsBtn +
+          '<select class="admin-order__status-select" data-order-status="' + order.id + '">' + options + '</select>' +
+        '</div>' +
       '</div>' +
       '<div class="admin-order__meta">' +
         '<span>' + contato + '</span>' +
@@ -212,7 +258,15 @@
     sel.disabled = true;
     sb.from('orders').update({ status: status }).eq('id', id).then(function (res) {
       sel.disabled = false;
-      if (res.error) alert('Não deu pra atualizar o status: ' + res.error.message);
+      if (res.error) { alert('Não deu pra atualizar o status: ' + res.error.message); return; }
+      var order = ORDERS_BY_ID[id];
+      if (order) {
+        order.status = status;
+        // Tenta abrir o WhatsApp na hora; se o navegador bloquear o popup
+        // (pode acontecer, já que isso roda depois de uma chamada de rede),
+        // o botão "📲 Avisar" no card do pedido manda a mesma mensagem.
+        openWhatsAppStatus(order, status);
+      }
     });
   }
 

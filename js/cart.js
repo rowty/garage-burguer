@@ -188,14 +188,20 @@ function openAddonModal(name, price) {
 
   addonList.innerHTML = '';
   ADDONS.forEach((addon) => {
-    const label = document.createElement('label');
-    label.className = 'addon-item';
-    label.innerHTML = `
+    const row = document.createElement('div');
+    row.className = 'addon-item';
+    row.innerHTML = `
       <span class="addon-item-label">${addon.name}<span>+ ${formatPrice(addon.price)}</span></span>
-      <input type="checkbox" data-addon-name="${addon.name}" data-addon-price="${addon.price}">
+      <div class="addon-qty" data-addon-name="${addon.name}" data-addon-price="${addon.price}" data-qty="0">
+        <button class="qty-btn minus" type="button" aria-label="Diminuir ${addon.name}">−</button>
+        <span class="qty-value">0</span>
+        <button class="qty-btn plus" type="button" aria-label="Aumentar ${addon.name}">+</button>
+      </div>
     `;
-    label.querySelector('input').addEventListener('change', updateAddonTotal);
-    addonList.appendChild(label);
+    const addonQty = row.querySelector('.addon-qty');
+    addonQty.querySelector('.minus').addEventListener('click', () => changeAddonQty(addonQty, -1));
+    addonQty.querySelector('.plus').addEventListener('click', () => changeAddonQty(addonQty, 1));
+    addonList.appendChild(row);
   });
 
   updateAddonTotal();
@@ -207,15 +213,25 @@ function closeAddonModal() {
   addonProduct = null;
 }
 
+function changeAddonQty(addonQty, delta) {
+  const qty = Math.max(0, parseInt(addonQty.dataset.qty, 10) + delta);
+  addonQty.dataset.qty = qty;
+  addonQty.querySelector('.qty-value').textContent = qty;
+  updateAddonTotal();
+}
+
 function getSelectedAddons() {
-  return Array.from(addonList.querySelectorAll('input:checked')).map((input) => ({
-    name: input.dataset.addonName,
-    price: parseFloat(input.dataset.addonPrice),
-  }));
+  return Array.from(addonList.querySelectorAll('.addon-qty'))
+    .map((box) => ({
+      name: box.dataset.addonName,
+      price: parseFloat(box.dataset.addonPrice),
+      qty: parseInt(box.dataset.qty, 10),
+    }))
+    .filter((addon) => addon.qty > 0);
 }
 
 function updateAddonTotal() {
-  const addonsTotal = getSelectedAddons().reduce((sum, a) => sum + a.price, 0);
+  const addonsTotal = getSelectedAddons().reduce((sum, a) => sum + a.price * a.qty, 0);
   document.getElementById('addonTotalValue').textContent = formatPrice(addonProduct.price + addonsTotal);
 }
 
@@ -226,9 +242,9 @@ document.getElementById('addonConfirmBtn').addEventListener('click', () => {
   if (!addonProduct) return;
   const addons = getSelectedAddons();
   const finalName = addons.length
-    ? `${addonProduct.name} (${addons.map((a) => a.name).join(', ')})`
+    ? `${addonProduct.name} (${addons.map((a) => (a.qty > 1 ? `${a.qty}x ${a.name}` : a.name)).join(', ')})`
     : addonProduct.name;
-  const finalPrice = addonProduct.price + addons.reduce((sum, a) => sum + a.price, 0);
+  const finalPrice = addonProduct.price + addons.reduce((sum, a) => sum + a.price * a.qty, 0);
   const existingQty = cart.get(finalName)?.qty || 0;
 
   setQty(finalName, finalPrice, existingQty + 1);
