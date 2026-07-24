@@ -205,6 +205,28 @@ body {
 @media (max-width: 900px) {
   .main-nav { display: none; }
 
+  .header-inner {
+    flex-direction: column;
+    justify-content: center;
+    height: auto;
+    padding: 16px 0;
+    gap: 14px;
+  }
+
+  .logo { font-size: 19px; }
+  .logo-mark { height: 38px; }
+
+  .header-actions {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .btn-account,
+  .header-actions .btn-solid {
+    padding: 10px 18px;
+    font-size: 12px;
+  }
+
   .hero-inner {
     grid-template-columns: 1fr;
     text-align: center;
@@ -215,6 +237,16 @@ body {
   .hero-content h1 { font-size: 40px; }
 
   .hero-image { height: 460px; }
+}
+
+@media (max-width: 380px) {
+  .header-actions { gap: 8px; }
+
+  .btn-account,
+  .header-actions .btn-solid {
+    padding: 9px 14px;
+    font-size: 11px;
+  }
 }
 
 /* Menu preview (Categories + Popular Dishes) */
