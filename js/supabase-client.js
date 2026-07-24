@@ -9,8 +9,8 @@
    quem protege os dados são as policies de RLS no banco. NUNCA cole aqui
    a chave service_role. */
 (function () {
-  var SUPABASE_URL = 'COLE_A_PROJECT_URL_AQUI';
-  var SUPABASE_ANON_KEY = 'COLE_A_ANON_KEY_AQUI';
+  var SUPABASE_URL = 'https://ztbttzytysafdalpcdxu.supabase.co';
+  var SUPABASE_ANON_KEY = 'sb_publishable_NwKoj0so4JdsyoDaWKUdpA_cHY5y89N';
 
   window.BH = window.BH || {};
 
