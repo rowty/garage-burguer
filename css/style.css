@@ -879,6 +879,50 @@ select.cart-input option {
 
 .cart-link:hover { text-decoration: underline; }
 
+.cart-greeting {
+  background: rgba(231,163,32,0.12);
+  border: 1px solid rgba(231,163,32,0.3);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 20px;
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.cart-loyalty {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.cart-loyalty input[type="checkbox"] {
+  margin-top: 2px;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--orange);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.cart-loyalty span {
+  font-size: 13px;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.5;
+}
+
+.cart-closed-note {
+  background: rgba(210,38,48,0.15);
+  border: 1px solid rgba(210,38,48,0.4);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  color: #ff8a7a;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: center;
+}
+
 .cart-row {
   display: flex;
   gap: 12px;
@@ -980,6 +1024,11 @@ select.cart-input option {
   align-items: center;
   justify-content: center;
   gap: 8px;
+}
+
+.cart-finish-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 

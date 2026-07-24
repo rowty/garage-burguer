@@ -251,7 +251,9 @@
 
   <div class="cart-items" id="cartItems"></div>
 
-  <div class="cart-panel-section">
+  <p class="cart-hint cart-greeting" id="customerGreeting" hidden></p>
+
+  <div class="cart-panel-section" id="customerFields">
     <span class="cart-section-label">SEUS DADOS</span>
     <input class="cart-input" id="customerName" type="text" placeholder="Seu nome">
     <input class="cart-input" id="customerPhone" type="tel" placeholder="Celular (WhatsApp) com DDD">
@@ -275,11 +277,7 @@
     <div class="cart-panel-section">
       <span class="cart-section-label">BAIRRO (CALCULA A TAXA DE ENTREGA)</span>
       <select class="cart-input" id="bairroSelect">
-        <option value="" data-fee="">Selecione o bairro</option>
-        <!-- TODO: substituir pelos bairros e taxas reais atendidos pela loja -->
-        <option value="Centro" data-fee="5">Centro — R$ 5,00</option>
-        <option value="Loteamento Passé" data-fee="7">Loteamento Passé — R$ 7,00</option>
-        <option value="Outros bairros" data-fee="10">Outros bairros — R$ 10,00</option>
+        <option value="">Selecione o bairro</option>
       </select>
     </div>
 
@@ -319,6 +317,13 @@
     <input class="cart-input" id="trocoInput" type="text" placeholder="Ex: R$ 50,00">
   </div>
 
+  <div class="cart-panel-section" id="loyaltySection" hidden>
+    <label class="cart-loyalty">
+      <input type="checkbox" id="loyaltyCheckbox">
+      <span id="loyaltyLabel"></span>
+    </label>
+  </div>
+
   <div class="cart-summary-row">
     <span>Subtotal</span>
     <span id="subtotalValue">R$ 0,00</span>
@@ -327,11 +332,17 @@
     <span>Taxa de entrega</span>
     <span id="deliveryFeeValue">Selecione o bairro</span>
   </div>
+  <div class="cart-summary-row" id="discountRow" hidden>
+    <span>Desconto (pontos)</span>
+    <span id="discountValue">- R$ 0,00</span>
+  </div>
 
   <div class="cart-total-row">
     <span>Total</span>
     <span class="cart-total-value" id="cartTotalValue">R$ 0,00</span>
   </div>
+
+  <p class="cart-closed-note" id="closedNote" hidden></p>
 
   <button class="cart-finish-btn" id="cartCheckoutBtn" type="button">
     Finalizar pedido no WhatsApp <span aria-hidden="true">→</span>
