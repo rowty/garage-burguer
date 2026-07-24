@@ -26,7 +26,7 @@
     </nav>
 
     <div class="header-actions">
-      <a href="#localizacao" class="btn btn-outline">ENCONTRAR UNIDADE</a>
+      <button type="button" class="btn btn-account" id="account-trigger">ENTRAR</button>
       <a href="#cardapio" class="btn btn-solid">PEÇA AGORA</a>
     </div>
   </div>
@@ -724,6 +724,33 @@
   <span class="cart-badge" id="cartBadge" hidden>0</span>
 </button>
 
+<!-- Modal de login -->
+<div class="auth-modal" id="auth-modal" aria-hidden="true">
+  <div class="auth-modal__overlay" id="auth-modal-overlay"></div>
+  <div class="auth-modal__panel">
+    <button type="button" class="auth-modal__close" id="auth-modal-close" aria-label="Fechar">✕</button>
+    <img src="img/logo-garage-burger.png" alt="Garage Burger" class="auth-modal__logo" onerror="this.style.display='none';">
+    <h2 class="auth-modal__title">Bem-vindo de volta!</h2>
+    <p class="auth-modal__subtitle">Entre pra acompanhar seus pedidos e juntar pontos.</p>
+
+    <form class="auth-modal__form" id="auth-form-login">
+      <label class="auth-modal__label">E-mail ou celular
+        <input class="auth-modal__input" id="auth-login-id" type="text" autocomplete="username" placeholder="Seu e-mail ou (71) 99999-9999" required>
+      </label>
+      <label class="auth-modal__label">Senha
+        <input class="auth-modal__input" id="auth-login-password" type="password" autocomplete="current-password" required>
+      </label>
+      <button type="submit" class="btn btn-solid auth-modal__submit">Entrar</button>
+    </form>
+
+    <p class="auth-modal__error" id="auth-error"></p>
+    <p class="auth-modal__hint">Ainda não tem conta? Ela é criada no seu primeiro pedido, é só finalizar um pedido e criar uma senha.</p>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/supabase-client.js"></script>
+<script src="js/auth.js"></script>
 <script src="js/cart.js"></script>
 </body>
 </html>
